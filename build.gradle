@@ -1,0 +1,26 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath libs.android.gradlePlugin
+        classpath libs.jetbrains.kotlin.gradlePlugin
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21'
+    }
+}
+
+allprojects {
+    project.ext {
+        minSdkVersion = 21
+        targetSdkVersion = 31
+        compileSdkVersion = 31
+        buildToolsVersion = "31.0.0"
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+

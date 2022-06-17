@@ -1,0 +1,28 @@
+apply from: "$rootDir/gradle/lib-android-module.gradle"
+
+android {
+    defaultConfig {
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/room-schemas".toString()]
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation libs.androidx.appcompat
+    implementation libs.google.material
+    implementation libs.androidx.room.runtime
+    implementation libs.androidx.room.ktx
+    kapt libs.androidx.room.compiler
+    implementation libs.jetbrains.coroutines.android
+    implementation libs.json.moshi
+    coreLibraryDesugaring(libs.android.desugarJdkLibs)
+
+    testImplementation libs.test.androidx.junit
+    testImplementation libs.test.robolectric
+    testImplementation libs.test.junit
+    testImplementation libs.test.coroutines
+    testImplementation libs.test.turbine
+}
