@@ -1,7 +1,10 @@
-package com.wisnu.kurniawan.debugview.model
+package com.wisnu.kurniawan.debugview.internal.model
 
-data class Analytic(
+import java.time.LocalDateTime
+
+internal data class Analytic(
     val id: String,
     val tag: String,
-    val isRecording: Boolean
+    val isRecording: Boolean,
+    val createdAt: LocalDateTime,
 )

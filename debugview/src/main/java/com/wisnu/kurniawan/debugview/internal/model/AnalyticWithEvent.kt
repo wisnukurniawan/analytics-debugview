@@ -1,4 +1,6 @@
 package com.wisnu.kurniawan.debugview.internal.model
 
-class AnalyticWithEvent {
-}
+internal data class AnalyticWithEvent(
+    val analytic: Analytic,
+    val events: List<Event>
+)

@@ -8,15 +8,15 @@ import java.time.LocalDateTime
 
 @Entity(
     indices = [
-        Index("analytic_name", unique = true)
+        Index("analytic_tag", unique = true)
     ]
 )
 internal data class AnalyticDb(
     @PrimaryKey
     @ColumnInfo(name = "analytic_id")
     val id: String,
-    @ColumnInfo(name = "analytic_name")
-    val name: String,
+    @ColumnInfo(name = "analytic_tag")
+    val tag: String,
     @ColumnInfo(name = "analytic_isRecording")
     val isRecording: Boolean,
     @ColumnInfo(name = "analytic_createdAt")

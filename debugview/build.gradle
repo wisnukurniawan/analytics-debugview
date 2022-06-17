@@ -17,7 +17,7 @@ dependencies {
     implementation libs.androidx.room.ktx
     kapt libs.androidx.room.compiler
     implementation libs.jetbrains.coroutines.android
-    implementation libs.json.moshi
+    implementation libs.square.moshi
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
 
     testImplementation libs.test.androidx.junit

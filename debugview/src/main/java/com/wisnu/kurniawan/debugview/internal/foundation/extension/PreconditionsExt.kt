@@ -1,15 +1,14 @@
 package com.wisnu.kurniawan.debugview.internal.foundation.extension
 
-import com.wisnu.kurniawan.debugview.exception.AnalyticDuplicateException
-import com.wisnu.kurniawan.debugview.exception.AnalyticEmptyException
-import com.wisnu.kurniawan.debugview.model.Analytic
+import com.wisnu.kurniawan.debugview.exception.TagDuplicateException
+import com.wisnu.kurniawan.debugview.exception.TagEmptyException
 
-internal inline fun require(analytics: List<Analytic>) {
-    if (analytics.isEmpty()) throw AnalyticEmptyException()
+internal inline fun require(tags: List<String>) {
+    if (tags.isEmpty()) throw TagEmptyException()
 
-    analytics.forEach { if (it.name.isBlank()) throw AnalyticEmptyException() }
+    tags.forEach { if (it.isBlank()) throw TagEmptyException() }
 
-    val distinctSize = analytics.distinctBy { it.name }.size
-    val actualSize = analytics.size
-    if (distinctSize != actualSize) throw AnalyticDuplicateException()
+    val distinctSize = tags.distinct().size
+    val actualSize = tags.size
+    if (distinctSize != actualSize) throw TagDuplicateException()
 }

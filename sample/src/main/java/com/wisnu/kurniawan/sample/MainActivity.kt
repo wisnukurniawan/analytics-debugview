@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         findViewById<Button>(R.id.record).setOnClickListener {
-            DebugView.log(
+            DebugView.record(
                 Event(
                     "Analytic2",
                     "Event1",
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             )
-            DebugView.log(
+            DebugView.record(
                 Event(
                     "Analytic2",
                     "Event2",
@@ -43,22 +43,22 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             )
-            DebugView.log(
-                Event(
-                    "Analytic2",
-                    "Event2",
-                    mapOf(
-                        "Prop1" to "Value1",
-                        "Prop2" to "Value2",
-                        "Prop3" to "Value3",
-                        "Prop4" to "Value4",
-                    )
-                )
-            )
-            DebugView.log(
+            DebugView.record(
                 Event(
                     "Analytic2",
                     "Event3",
+                    mapOf(
+                        "Prop1" to "Value1",
+                        "Prop2" to "Value2",
+                        "Prop3" to "Value3",
+                        "Prop4" to "Value4",
+                    )
+                )
+            )
+            DebugView.record(
+                Event(
+                    "Analytic2",
+                    "Event4",
                     mapOf(
                         "Prop1" to "Value1",
                         "Prop2" to "Value2",

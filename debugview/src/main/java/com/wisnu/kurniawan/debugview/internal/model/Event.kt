@@ -1,8 +1,8 @@
-package com.wisnu.kurniawan.debugview.model
+package com.wisnu.kurniawan.debugview.internal.model
 
 import java.time.LocalDateTime
 
-data class Event(
+internal data class Event(
     val id: String,
     val name: String,
     val properties: Map<String, String>,

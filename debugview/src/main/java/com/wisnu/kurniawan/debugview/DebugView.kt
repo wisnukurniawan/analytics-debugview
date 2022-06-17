@@ -1,58 +1,90 @@
 package com.wisnu.kurniawan.debugview
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
-import com.wisnu.kurniawan.debugview.exception.AnalyticNotFoundException
+import com.wisnu.kurniawan.debugview.internal.features.main.data.IMainEnvironment
+import com.wisnu.kurniawan.debugview.internal.features.main.data.MainEnvironment
+import com.wisnu.kurniawan.debugview.internal.features.notification.data.EventNotificationManager
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.DebugViewDatabase
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.LocalManager
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.require
 import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.IdProviderImpl
-import com.wisnu.kurniawan.debugview.model.Analytic
-import com.wisnu.kurniawan.debugview.model.Event
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+
 
 object DebugView {
 
-    private val analytics = MutableStateFlow(mapOf<String, String>())
+    private val idProvider by lazy { IdProviderImpl() }
+    private val dateTimeProvider by lazy { DateTimeProviderImpl() }
 
-    internal lateinit var db: DebugViewDatabase
+    private lateinit var db: DebugViewDatabase
+    private lateinit var localManager: LocalManager
+    private var mainEnvironment: IMainEnvironment? = null
 
-    internal var localManager: LocalManager? = null
+    @SuppressLint("StaticFieldLeak")
+    internal var eventNotificationManager: EventNotificationManager? = null
 
-    fun build(context: Context, analytics: List<Analytic>) {
+    fun init(context: Context, tags: List<String>) {
+        require(tags)
+
         GlobalScope.launch(Dispatchers.IO) {
-            require(analytics)
+            initDatabase(context, tags)
+            initLocalManager()
+            initMainEnvironment()
 
-            db = DebugViewDatabase.getInstance(context, analytics)
+            launch {
+                initListenAnalyticChanges(context)
+            }
+        }
+    }
 
-            localManager = LocalManager(
-                dispatcher = Dispatchers.IO,
-                readDao = db.readDao(),
-                writeDao = db.writeDao(),
-                idProvider = IdProviderImpl(),
-                dateTimeProvider = DateTimeProviderImpl()
-            )
+    private fun initDatabase(context: Context, tags: List<String>) {
+        db = DebugViewDatabase.getInstance(context, tags)
+    }
 
-            localManager?.getAnalyticNameWithIds()
-                ?.collect {
-                    DebugView.analytics.emit(it)
+    private fun initLocalManager() {
+        localManager = LocalManager(
+            dispatcher = Dispatchers.IO,
+            readDao = db.readDao(),
+            writeDao = db.writeDao(),
+            dateTimeProvider = dateTimeProvider
+        )
+    }
+
+    private fun initMainEnvironment() {
+        mainEnvironment = MainEnvironment(
+            localManager = localManager,
+            idProvider = idProvider,
+        )
+    }
+
+    private suspend fun initListenAnalyticChanges(context: Context) {
+        eventNotificationManager = EventNotificationManager(context)
+
+        mainEnvironment?.getLast10EventWithAnalytic()
+            ?.catch { }
+            ?.collect { analytics ->
+                analytics.forEach {
+                    eventNotificationManager?.show(
+                        it.analytic,
+                        it.events
+                    )
                 }
-            // init access seismic
-        }
+            }
     }
 
-    fun log(analyticName: String, event: Event) {
+    fun record(event: Event) {
+        val createdAt = dateTimeProvider.now()
         GlobalScope.launch(Dispatchers.IO) {
-            val analyticId = analytics.value[analyticName] ?: throw AnalyticNotFoundException(analyticName)
-            localManager?.insertEvent(analyticId, event)
+            mainEnvironment?.getAnalytic(event)
+                ?.catch { }
+                ?.collect {
+                    mainEnvironment?.insertEvent(it, event, createdAt)
+                }
         }
     }
-
 }

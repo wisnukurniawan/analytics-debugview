@@ -9,11 +9,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.AnalyticDb
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventDb
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventFtsDb
-import com.wisnu.kurniawan.debugview.internal.foundation.extension.toAnalyticDb
 import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.IdProviderImpl
-import com.wisnu.kurniawan.debugview.model.Analytic
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -37,13 +34,13 @@ internal abstract class DebugViewDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: DebugViewDatabase? = null
 
-        fun getInstance(context: Context, analytics: List<Analytic>): DebugViewDatabase {
+        fun getInstance(context: Context, tags: List<String>): DebugViewDatabase {
             return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: buildDatabase(context, analytics).also { INSTANCE = it }
+                INSTANCE ?: buildDatabase(context, tags).also { INSTANCE = it }
             }
         }
 
-        private fun buildDatabase(context: Context, analytics: List<Analytic>): DebugViewDatabase {
+        private fun buildDatabase(context: Context, tags: List<String>): DebugViewDatabase {
             val db = Room.databaseBuilder(
                 context,
                 DebugViewDatabase::class.java,
@@ -55,7 +52,7 @@ internal abstract class DebugViewDatabase : RoomDatabase() {
                             super.onCreate(db)
 
                             GlobalScope.launch(Dispatchers.IO) {
-                                initPrePopulateDefaultAnalytic(context, analytics)
+                                initPrePopulateDefaultAnalytic(context, tags)
                             }
                         }
                     }
@@ -64,15 +61,18 @@ internal abstract class DebugViewDatabase : RoomDatabase() {
             return db.build()
         }
 
-        private suspend fun initPrePopulateDefaultAnalytic(context: Context, analytics: List<Analytic>) {
-            val analyticDbs = analytics.map {
-                it.toAnalyticDb(
-                    id = { IdProviderImpl().generate() },
-                    createdAt = { DateTimeProviderImpl().now() },
+        private suspend fun initPrePopulateDefaultAnalytic(context: Context, tags: List<String>) {
+            val analyticDbs = tags.map {
+                AnalyticDb(
+                    id = IdProviderImpl().generate(),
+                    tag = it,
+                    isRecording = false,
+                    createdAt = DateTimeProviderImpl().now(),
                     updatedAt = null
                 )
             }
-            val writeDao = getInstance(context, analytics).writeDao()
+
+            val writeDao = getInstance(context, tags).writeDao()
 
             writeDao.insertAnalytics(analyticDbs)
         }

@@ -1,21 +1,18 @@
-package com.wisnu.kurniawan.debugview.internal.foundation.notification
+package com.wisnu.kurniawan.debugview.internal.features.notification.data
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.TaskStackBuilder
 import android.content.Context
-import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.res.ResourcesCompat
-import com.wisnu.kurniawan.debugview.Event
 import com.wisnu.kurniawan.debugview.R
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toMillis
 import com.wisnu.kurniawan.debugview.internal.model.Analytic
+import com.wisnu.kurniawan.debugview.internal.model.Event
 
-
-internal class NotificationManager(private val context: Context) {
+internal class EventNotificationManager(private val context: Context) {
 
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
 
@@ -40,6 +37,8 @@ internal class NotificationManager(private val context: Context) {
     }
 
     fun show(analytic: Analytic, events: List<Event>) {
+        if (events.isEmpty()) return
+
         val builder = buildNotification(analytic, events)
         val id = analytic.createdAt.toMillis().toInt()
         notificationManager?.notify(
@@ -55,35 +54,34 @@ internal class NotificationManager(private val context: Context) {
 
     private fun buildNotification(analytic: Analytic, events: List<Event>): NotificationCompat.Builder {
         return NotificationCompat.Builder(context, CHANNEL_ID).apply {
-            setContentIntent(buildPendingIntent(analytic.tag))
+//            setContentIntent(buildPendingIntent(analytic.tag))
             setLocalOnly(true)
             setSmallIcon(R.drawable.debug_view_ic_out)
             setColor(ResourcesCompat.getColor(context.resources, R.color.primary, null))
             setContentTitle(context.getString(R.string.debug_view_title, analytic.tag))
             setAutoCancel(true)
             setColorized(true)
-            addAction(getClearAction(analytic.tag))
             setStyle(buildInboxStyle(this, events))
             setCount(this, events)
         }
     }
 
-    private fun buildPendingIntent(tag: String): PendingIntent {
-        val openTaskIntent = Intent(
-            Intent.ACTION_VIEW,
-            StepFlow.TaskDetailScreen.deeplink(taskId, listId).toUri()
-        )
-        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        } else {
-            PendingIntent.FLAG_UPDATE_CURRENT
-        }
-
-        return TaskStackBuilder.create(context).run {
-            addNextIntentWithParentStack(openTaskIntent)
-            getPendingIntent(REQUEST_CODE_OPEN_ANALYTIC, flags)
-        }
-    }
+//    private fun buildPendingIntent(tag: String): PendingIntent {
+//        val openTaskIntent = Intent(
+//            Intent.ACTION_VIEW,
+//            StepFlow.TaskDetailScreen.deeplink(taskId, listId).toUri()
+//        )
+//        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+//        } else {
+//            PendingIntent.FLAG_UPDATE_CURRENT
+//        }
+//
+//        return TaskStackBuilder.create(context).run {
+//            addNextIntentWithParentStack(openTaskIntent)
+//            getPendingIntent(REQUEST_CODE_OPEN_ANALYTIC, flags)
+//        }
+//    }
 
     private fun setCount(builder: NotificationCompat.Builder, events: List<Event>) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -96,10 +94,8 @@ internal class NotificationManager(private val context: Context) {
     private fun buildInboxStyle(builder: NotificationCompat.Builder, events: List<Event>): NotificationCompat.InboxStyle {
         val inboxStyle = NotificationCompat.InboxStyle()
         events
-            .takeLast(BUFFER_SIZE)
-            .reversed()
             .forEachIndexed { index, event ->
-                if (index + 1 == BUFFER_SIZE) {
+                if (index == 0) {
                     builder.setContentText(event.name)
                 }
                 inboxStyle.addLine(event.name)
@@ -107,20 +103,7 @@ internal class NotificationManager(private val context: Context) {
         return inboxStyle
     }
 
-    private fun getClearAction(tag: String): NotificationCompat.Action {
-        val clearTitle: CharSequence = context.getString(R.string.chuck_clear)
-        val deleteIntent = Intent(context, ClearEventsService::class.java).apply {
-            putExtra(ClearEventsService.EXTRA_TAG, tag)
-        }
-        val intent = PendingIntent.getService(context, REQUEST_CODE_ACTION_CLEAR, deleteIntent, PendingIntent.FLAG_ONE_SHOT)
-        return NotificationCompat.Action(
-            R.drawable.debug_view_ic_delete,
-            clearTitle, intent
-        )
-    }
-
     companion object {
-        private const val REQUEST_CODE_ACTION_CLEAR = 1
         private const val REQUEST_CODE_OPEN_ANALYTIC = 2
         private const val BUFFER_SIZE = 10
         private const val CHANNEL_ID = "task_notification_channel"

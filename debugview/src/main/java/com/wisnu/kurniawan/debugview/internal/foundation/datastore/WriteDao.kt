@@ -14,8 +14,8 @@ internal abstract class WriteDao {
     @Insert
     abstract suspend fun insertAnalytics(data: List<AnalyticDb>)
 
-    @Query("UPDATE AnalyticDb SET analytic_isRecording = :isRecording, analytic_updatedAt = :updatedAt WHERE analytic_name = :name")
-    abstract suspend fun updateAnalytic(name: String, isRecording: Boolean, updatedAt: LocalDateTime)
+    @Query("UPDATE AnalyticDb SET analytic_isRecording = :isRecording, analytic_updatedAt = :updatedAt WHERE analytic_tag = :tag")
+    abstract suspend fun updateAnalytic(tag: String, isRecording: Boolean, updatedAt: LocalDateTime)
 
     @Insert
     abstract suspend fun insertEvent(data: EventDb)

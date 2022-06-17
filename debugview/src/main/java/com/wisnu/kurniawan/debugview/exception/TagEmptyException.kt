@@ -1,3 +1,3 @@
 package com.wisnu.kurniawan.debugview.exception
 
-class AnalyticEmptyException : Exception("Analytic name can not be empty!")
+class TagEmptyException : Exception("TAG can not be empty!")

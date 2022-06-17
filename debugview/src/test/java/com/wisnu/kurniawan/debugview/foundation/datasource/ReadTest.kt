@@ -46,7 +46,7 @@ class ReadTest {
     fun searchEvent() = runBlocking {
         val analytic1 = AnalyticDb(
             id = "1",
-            name = "name1",
+            tag = "name1",
             isRecording = false,
             createdAt = DateFactory.constantDate,
             updatedAt = DateFactory.constantDate

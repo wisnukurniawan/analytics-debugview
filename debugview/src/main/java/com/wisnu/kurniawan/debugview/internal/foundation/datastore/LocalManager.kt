@@ -1,48 +1,49 @@
 package com.wisnu.kurniawan.debugview.internal.foundation.datastore
 
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toAnalytic
-import com.wisnu.kurniawan.debugview.internal.foundation.extension.toAnalyticDbs
-import com.wisnu.kurniawan.debugview.internal.foundation.extension.toAnalytics
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toEvent
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toEventDb
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toEvents
 import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.DateTimeProvider
-import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.IdProvider
-import com.wisnu.kurniawan.debugview.model.Analytic
-import com.wisnu.kurniawan.debugview.model.Event
+import com.wisnu.kurniawan.debugview.internal.model.Analytic
+import com.wisnu.kurniawan.debugview.internal.model.Event
+import com.wisnu.kurniawan.debugview.internal.model.EventWithAnalytic
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.withContext
 
 internal class LocalManager(
     private val dispatcher: CoroutineDispatcher,
     private val readDao: ReadDao,
     private val writeDao: WriteDao,
-    private val idProvider: IdProvider,
     private val dateTimeProvider: DateTimeProvider
 ) {
 
-    fun getAnalyticNameWithIds(): Flow<Map<String, String>> {
-        return readDao.getAnalytics()
-            .filterNotNull()
-            .map { analyticDb ->
-                analyticDb.associateBy({ it.name }, { it.id })
-            }
-            .flowOn(dispatcher)
-    }
-
-    fun getAnalytic(name: String): Flow<Analytic> {
-        return readDao.getAnalytic(name)
+    fun getAnalytic(tag: String): Flow<Analytic> {
+        return readDao.getAnalytic(tag)
             .map { it.toAnalytic() }
             .flowOn(dispatcher)
     }
 
-    fun getEvents(analyticId: String): Flow<List<Event>> {
-        return readDao.getEvents(analyticId)
+    fun getEventWithAnalytic(limit: Int): Flow<List<EventWithAnalytic>> {
+        return readDao.getEventWithAnalytic(limit)
+            .filterNotNull()
+            .map { analytics ->
+                analytics.map {
+                    EventWithAnalytic(
+                        analytic = it.analytic.toAnalytic(),
+                        event = it.event.toEvent()
+                    )
+                }
+            }
+            .flowOn(dispatcher)
+    }
+
+    fun getEvents(analyticId: String, limit: Int): Flow<List<Event>> {
+        return readDao.getEvents(analyticId, limit)
             .filterNotNull()
             .map { it.toEvents() }
             .flowOn(dispatcher)
@@ -61,22 +62,10 @@ internal class LocalManager(
             .flowOn(dispatcher)
     }
 
-    suspend fun insertAnalytics(data: List<Analytic>) {
-        withContext(dispatcher) {
-            writeDao.insertAnalytics(
-                data.toAnalyticDbs(
-                    id = { idProvider.generate() },
-                    createdAt = { dateTimeProvider.now() },
-                    updatedAt = null
-                )
-            )
-        }
-    }
-
     suspend fun updateAnalytic(data: Analytic) {
         withContext(dispatcher) {
             writeDao.updateAnalytic(
-                name = data.name,
+                tag = data.tag,
                 isRecording = data.isRecording,
                 updatedAt = dateTimeProvider.now()
             )
@@ -86,11 +75,7 @@ internal class LocalManager(
     suspend fun insertEvent(analyticId: String, data: Event) {
         withContext(dispatcher) {
             writeDao.insertEvent(
-                data.toEventDb(
-                    analyticId = analyticId,
-                    id = { idProvider.generate() },
-                    createdAt = { dateTimeProvider.now() }
-                )
+                data.toEventDb(analyticId = analyticId)
             )
         }
     }
