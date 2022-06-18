@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#F2355B</color>
+    <color name="backgroundL1">#000000</color>
+    <color name="itemBackgroundL1">#333333</color>
+    <color name="backgroundL2">#242424</color>
+    <color name="itemBackgroundL2">#383838</color>
+    <color name="on">#FFFFFF</color>
+    <color name="error">#B00020</color>
 </resources>

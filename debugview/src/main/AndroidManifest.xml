@@ -5,6 +5,7 @@
     <application>
         <activity
             android:name=".internal.runtime.DebugViewActivity"
+            android:theme="@style/DebugViewTheme"
             android:windowSoftInputMode="adjustResize" />
     </application>
 
