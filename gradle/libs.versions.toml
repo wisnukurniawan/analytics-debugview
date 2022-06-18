@@ -2,6 +2,7 @@
 androidGradlePlugin = "7.2.1"
 
 androidxAppCompat = "1.4.2"
+androidxLifecycle = "2.4.1"
 androidDesugarJdkLibs = "1.1.5"
 kotlin = "1.6.21"
 kotlinxCoroutines = "1.6.2"
@@ -19,6 +20,8 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
 google-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 jetbrains-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 square-moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }

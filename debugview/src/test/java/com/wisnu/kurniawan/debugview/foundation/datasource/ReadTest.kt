@@ -102,7 +102,7 @@ class ReadTest {
         writeDao.insertEvent(event5)
         writeDao.insertEvent(event6)
 
-        readDao.searchEvent("*aa*").expect(
+        readDao.searchEvent("1", 10, "*aa*").expect(
             listOf(event4, event5, event6)
         )
     }

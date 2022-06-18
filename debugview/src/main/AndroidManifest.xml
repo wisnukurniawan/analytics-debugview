@@ -3,10 +3,9 @@
     package="com.wisnu.kurniawan.debugview">
 
     <application>
-
-        <receiver
-            android:name=".internal.features.notification.ui.EventNotificationBroadcastReceiver"
-            android:exported="false" />
+        <activity
+            android:name=".internal.runtime.DebugViewActivity"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
-package com.wisnu.kurniawan.debugview.internal.features.event.ui
+package com.wisnu.kurniawan.debugview.internal.features.analytic.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -9,33 +10,31 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wisnu.kurniawan.debugview.R
-import com.wisnu.kurniawan.debugview.internal.features.analytic.ui.AnalyticFragment
-import com.wisnu.kurniawan.debugview.internal.features.event.data.IEventEnvironment
-import com.wisnu.kurniawan.debugview.internal.features.event.di.EventModule
-import com.wisnu.kurniawan.debugview.internal.features.eventdetails.ui.EventDetailsFragment
+import com.wisnu.kurniawan.debugview.internal.features.analytic.data.IAnalyticEnvironment
+import com.wisnu.kurniawan.debugview.internal.features.analytic.di.AnalyticModule
+import com.wisnu.kurniawan.debugview.internal.features.event.ui.EventFragment
 import com.wisnu.kurniawan.debugview.internal.foundation.di.DataModule
 import kotlinx.coroutines.launch
 
-internal class EventFragment : Fragment(R.layout.fragment_event) {
+internal class AnalyticFragment : Fragment(R.layout.fragment_analytic) {
 
-    private val adapter: EventAdapter by lazy {
-        EventAdapter {
-            viewModel.dispatch(EventAction.ClickEventItem(it.id))
+    private val adapter: AnalyticAdapter by lazy {
+        AnalyticAdapter {
+            viewModel.dispatch(AnalyticAction.ClickAnalyticItem(it.tag))
         }
     }
 
-    lateinit var environment: IEventEnvironment
-    lateinit var viewModel: EventViewModel
+    lateinit var environment: IAnalyticEnvironment
+    lateinit var viewModel: AnalyticViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        EventModule.inject(this, DataModule.localManager)
-        EventModule.inject(this, this, environment)
+        AnalyticModule.inject(this, DataModule.localManager)
+        AnalyticModule.inject(this, this, environment)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // todo delete all event
 
         initRecyclerView(view)
 
@@ -43,45 +42,42 @@ internal class EventFragment : Fragment(R.layout.fragment_event) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.state.collect {
-                        // todo empty state
-                        adapter.submitList(it.events)
+                        Log.d("sadad", "ASdasd ${it.analytics}")
+
+                        adapter.submitList(it.analytics)
                     }
                 }
                 launch {
                     viewModel.effect.collect {
                         when (it) {
-                            is EventEffect.NavigateToEventDetails -> navigateToEventDetailsFragment(it.id)
+                            is AnalyticEffect.NavigateToEvent -> navigateToEventFragment(it.tag)
                         }
                     }
                 }
             }
         }
-
-        requireArguments().getString(AnalyticFragment.EXTRA_TAG)?.let {
-            viewModel.dispatch(EventAction.Launch(it))
-        }
     }
 
     private fun initRecyclerView(view: View) {
-        val rv = view.findViewById<RecyclerView>(R.id.event_rv)
+        val rv = view.findViewById<RecyclerView>(R.id.analytic_rv)
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
     }
 
-    private fun navigateToEventDetailsFragment(id: String) {
+    private fun navigateToEventFragment(tag: String) {
         val bundle = Bundle()
-        bundle.putString(EXTRA_EVENT_ID, id)
+        bundle.putString(EXTRA_TAG, tag)
 
         val fragmentManager = activity?.supportFragmentManager
         fragmentManager?.beginTransaction()
-            ?.replace(R.id.analytic_fragment, EventDetailsFragment::class.java, bundle)
+            ?.replace(R.id.analytic_fragment, EventFragment::class.java, bundle)
             ?.setReorderingAllowed(true)
             ?.addToBackStack(null)
             ?.commit()
     }
 
     companion object {
-        const val EXTRA_EVENT_ID = "EXTRA_EVENT_ID"
+        const val EXTRA_TAG = "EXTRA_TAG"
     }
 
 }

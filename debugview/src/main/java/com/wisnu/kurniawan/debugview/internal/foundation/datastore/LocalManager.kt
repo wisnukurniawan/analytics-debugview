@@ -22,6 +22,13 @@ internal class LocalManager(
     private val dateTimeProvider: DateTimeProvider
 ) {
 
+    fun getAnalytics(): Flow<List<Analytic>> {
+        return readDao.getAnalytics()
+            .filterNotNull()
+            .map { analytics -> analytics.map { it.toAnalytic() } }
+            .flowOn(dispatcher)
+    }
+
     fun getAnalytic(tag: String): Flow<Analytic> {
         return readDao.getAnalytic(tag)
             .map { it.toAnalytic() }
@@ -55,8 +62,8 @@ internal class LocalManager(
             .flowOn(dispatcher)
     }
 
-    fun searchEvent(query: String): Flow<List<Event>> {
-        return readDao.searchEvent(query)
+    fun searchEvent(analyticId: String, limit: Int, query: String): Flow<List<Event>> {
+        return readDao.searchEvent(analyticId, limit, query)
             .filterNotNull()
             .map { it.toEvents() }
             .flowOn(dispatcher)

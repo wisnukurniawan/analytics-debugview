@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.AnalyticDb
-import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventWithAnalytic
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventDb
+import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventWithAnalytic
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -41,9 +41,11 @@ internal interface ReadDao {
             SELECT *
             FROM EventDb 
             JOIN EventFtsDb ON EventDb.event_name = EventFtsDb.event_name
-            WHERE EventFtsDb MATCH :query
+            WHERE event_analyticId = :analyticId AND EventFtsDb MATCH :query
+            ORDER BY event_createdAt DESC
+            LIMIT :limit
             """
     )
-    fun searchEvent(query: String): Flow<List<EventDb>>
+    fun searchEvent(analyticId: String, limit: Int, query: String): Flow<List<EventDb>>
 
 }
