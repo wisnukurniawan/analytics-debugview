@@ -24,4 +24,4 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Build library, run local library tests, and sample
-        run: ./gradlew :debugview:assembleTestDebugUnitTest :debugview:assembleDebug assembleRelease
+        run: ./gradlew :debugview:testDebugUnitTest :debugview:assembleDebug assembleRelease
