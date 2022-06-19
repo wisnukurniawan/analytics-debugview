@@ -5,8 +5,15 @@
     <application>
         <activity
             android:name=".internal.runtime.DebugViewActivity"
+            android:exported="true"
             android:theme="@style/DebugViewTheme"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="DEBUG_VIEW_PAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

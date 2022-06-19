@@ -8,7 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.wisnu.kurniawan.debugview.R
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.doOnApplyWindowInsets
 
-class DebugViewActivity : AppCompatActivity() {
+internal class DebugViewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

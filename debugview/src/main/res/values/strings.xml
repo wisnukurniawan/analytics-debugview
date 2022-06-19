@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="debug_view_app_name">Debug event viewer</string>
     <string name="debug_view_channel_name">Events</string>
     <string name="debug_view_channel_description">Notifications for events</string>
     <string name="debug_view_title">Recording %1$s events</string>

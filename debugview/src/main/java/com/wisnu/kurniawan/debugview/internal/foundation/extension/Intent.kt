@@ -2,8 +2,12 @@ package com.wisnu.kurniawan.debugview.internal.foundation.extension
 
 import android.content.Context
 import android.content.Intent
-import com.wisnu.kurniawan.debugview.internal.runtime.DebugViewActivity
+
+private const val DEBUG_VIEW_ACTION = "DEBUG_VIEW_PAGE"
 
 internal fun Context.getLaunchIntent(): Intent {
-    return Intent(this, DebugViewActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    return Intent(DEBUG_VIEW_ACTION).apply {
+        `package` = packageName
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    }
 }

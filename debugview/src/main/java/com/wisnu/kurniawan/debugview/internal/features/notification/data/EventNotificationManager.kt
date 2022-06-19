@@ -103,8 +103,6 @@ internal class EventNotificationManager(private val context: Context) {
     }
 
     companion object {
-        private const val REQUEST_CODE_OPEN_ANALYTIC = 2
-        private const val BUFFER_SIZE = 10
         private const val CHANNEL_ID = "task_notification_channel"
     }
 }
