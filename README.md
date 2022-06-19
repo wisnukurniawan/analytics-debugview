@@ -24,8 +24,11 @@ Download
 
 ```groovy
 repositories {
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
+    debugImplementation 'com.github.wisnukurniawan.analytics-debugview:debugview:0.1.1'
+    releaseImplementation 'com.github.wisnukurniawan.analytics-debugview:debugview-no-op:0.1.1'
 }
 ```
