@@ -51,4 +51,6 @@ dependencies {
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
     debugImplementation projects.debugview
     releaseImplementation projects.debugviewNoOp
+//    debugImplementation 'com.github.wisnukurniawan.analytics-debugview:debugview:0.1.1'
+//    releaseImplementation 'com.github.wisnukurniawan.analytics-debugview:debugview-no-op:0.1.1'
 }

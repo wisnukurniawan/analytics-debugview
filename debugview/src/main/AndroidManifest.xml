@@ -6,14 +6,25 @@
         <activity
             android:name=".internal.runtime.DebugViewActivity"
             android:exported="true"
+            android:icon="@mipmap/debugview_ic_launcher"
+            android:taskAffinity="com.wisnu.kurniawan.${applicationId}"
             android:theme="@style/DebugViewTheme"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="DEBUG_VIEW_PAGE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+            android:windowSoftInputMode="adjustResize" />
 
-        </activity>
+        <activity-alias
+            android:name=".internal.runtime.DebugViewLauncherActivity"
+            android:exported="true"
+            android:icon="@mipmap/debugview_ic_launcher"
+            android:label="@string/debug_view_app_name"
+            android:targetActivity=".internal.runtime.DebugViewActivity"
+            android:taskAffinity="com.wisnu.kurniawan.${applicationId}"
+            android:theme="@style/DebugViewTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
     </application>
 
 </manifest>
