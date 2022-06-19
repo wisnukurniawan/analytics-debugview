@@ -1,3 +1,5 @@
+![build](https://github.com/wisnukurniawan/analytics-debugview/actions/workflows/build.yml/badge.svg)
+
 This is in app analytic debug event viewer.
 
 Usually, I use logcat to debug analytic event values, I'm tired of connecting my device with my machine or even more checking it in the analytic dashboard.
