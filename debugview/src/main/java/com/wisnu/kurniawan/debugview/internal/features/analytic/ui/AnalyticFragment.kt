@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.wisnu.kurniawan.debugview.R
 import com.wisnu.kurniawan.debugview.internal.features.analytic.data.IAnalyticEnvironment
 import com.wisnu.kurniawan.debugview.internal.features.analytic.di.AnalyticModule
@@ -41,7 +42,8 @@ internal class AnalyticFragment : Fragment(R.layout.debugview_fragment_analytic)
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.state.collect {
-                        adapter.submitList(it.analytics)
+                        renderToolbar(it, view)
+                        renderContent(it)
                     }
                 }
                 launch {
@@ -59,6 +61,15 @@ internal class AnalyticFragment : Fragment(R.layout.debugview_fragment_analytic)
         val rv = view.findViewById<RecyclerView>(R.id.analytic_rv)
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
+    }
+
+    private fun renderContent(state: AnalyticState) {
+        adapter.submitList(state.analytics)
+    }
+
+    private fun renderToolbar(state: AnalyticState, view: View) {
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.analytic_toolbar)
+        toolbar.setTitle(state.title)
     }
 
     private fun navigateToEventFragment(tag: String, isSingle: Boolean) {
