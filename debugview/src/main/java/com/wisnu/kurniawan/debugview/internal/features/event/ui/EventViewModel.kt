@@ -68,6 +68,7 @@ internal class EventViewModel(
             EventAction.ClickClearAll -> {
                 viewModelScope.launch {
                     environment.deleteEvent(state.value.analytic.id)
+                    setEffect(EventEffect.Cleared)
                 }
             }
             is EventAction.ApplyFilter -> {

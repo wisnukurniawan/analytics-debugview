@@ -43,3 +43,11 @@ abstract class TypeToken<T> {
             Util.canonicalize((superclass as ParameterizedType).actualTypeArguments[0])
         }
 }
+
+internal fun String.prettyJson(): String {
+    val source: Buffer = Buffer().writeUtf8(this)
+    val reader: JsonReader = JsonReader.of(source)
+    val value: Any? = reader.readJsonValue()
+    val adapter = moshiBuild.adapter(Any::class.java).indent("    ")
+    return adapter.toJson(value)
+}

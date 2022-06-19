@@ -5,6 +5,7 @@ import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -70,6 +71,7 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
                         when (it) {
                             is EventEffect.NavigateToEventDetails -> navigateToEventDetailsFragment(it.id)
                             is EventEffect.ShowFilterSheet -> showFilterSheet(it.filterConfig)
+                            EventEffect.Cleared -> showToastCleared()
                         }
                     }
                 }
@@ -220,6 +222,10 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
         }
         modalBottomSheet.arguments = input
         modalBottomSheet.show(requireActivity().supportFragmentManager, EventFilterFragment.TAG)
+    }
+
+    private fun showToastCleared() {
+        Toast.makeText(requireContext(), getString(R.string.debug_view_event_cleared), Toast.LENGTH_SHORT).show()
     }
 
     companion object {

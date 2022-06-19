@@ -6,6 +6,9 @@
     <string name="debug_view_clear">Clear all</string>
 
     <string name="debug_view_analytic_title">Analytics</string>
+    <string name="debug_view_event_copied">Copied</string>
+    <string name="debug_view_event_cleared">Cleared</string>
+    <string name="debug_view_event_details_title">Event details</string>
     <string name="debug_view_event_action_clear_title">Clear all</string>
     <string name="debug_view_event_action_search_title">Search</string>
     <string name="debug_view_event_action_filter_title">Filter</string>

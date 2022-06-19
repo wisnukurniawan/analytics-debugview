@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         DebugView.init(
             this.applicationContext,
-            "Analytic1",
+            "Analytic2",
         )
 
         findViewById<Button>(R.id.viewer).setOnClickListener {

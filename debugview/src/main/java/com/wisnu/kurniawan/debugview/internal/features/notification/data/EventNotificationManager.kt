@@ -53,6 +53,7 @@ internal class EventNotificationManager(private val context: Context) {
 
     private fun buildNotification(analytic: Analytic, events: List<Event>): NotificationCompat.Builder {
         return NotificationCompat.Builder(context, CHANNEL_ID).apply {
+            // TODO handle click notif
 //            setContentIntent(buildPendingIntent(analytic.tag))
             setLocalOnly(true)
             setSmallIcon(R.drawable.debugview_ic_out)
