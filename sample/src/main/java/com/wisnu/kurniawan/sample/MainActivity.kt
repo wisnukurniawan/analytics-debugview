@@ -9,59 +9,53 @@ import com.wisnu.kurniawan.debugview.Event
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
-        DebugView.init(
-            this.applicationContext,
-            "Analytic2",
-        )
-
         findViewById<Button>(R.id.record).setOnClickListener {
             DebugView.record(
                 Event(
-                    "Analytic2",
-                    "Event1",
+                    "Google analytic",
+                    "click_button_event_1",
                     mapOf(
-                        "Prop1" to "Value1",
-                        "Prop2" to "Value2",
-                        "Prop3" to "Value3",
-                        "Prop4" to "Value4",
+                        "prop_1" to "value_1",
+                        "prop_2" to "value_2",
+                        "prop_3" to "value_3",
+                        "prop_4" to "value_4",
                     )
                 )
             )
             DebugView.record(
                 Event(
-                    "Analytic2",
-                    "Event2",
+                    "Google analytic",
+                    "click_button_event_2",
                     mapOf(
-                        "Prop1" to "Value1",
-                        "Prop2" to "Value2",
-                        "Prop3" to "Value3",
-                        "Prop4" to "Value4",
+                        "prop_1" to "value_1",
+                        "prop_2" to "value_2",
+                        "prop_3" to "value_3",
+                        "prop_4" to "value_4",
                     )
                 )
             )
             DebugView.record(
                 Event(
-                    "Analytic2",
-                    "Event3",
+                    "Google analytic",
+                    "click_button_event_3",
                     mapOf(
-                        "Prop1" to "Value1",
-                        "Prop2" to "Value2",
-                        "Prop3" to "Value3",
-                        "Prop4" to "Value4",
+                        "prop_1" to "value_1",
+                        "prop_2" to "value_2",
+                        "prop_3" to "value_3",
+                        "prop_4" to "value_4",
                     )
                 )
             )
             DebugView.record(
                 Event(
-                    "Analytic2",
-                    "Event4",
+                    "Google analytic",
+                    "click_button_event_4",
                     mapOf(
-                        "Prop1" to "Value1",
-                        "Prop2" to "Value2",
-                        "Prop3" to "Value3",
-                        "Prop4" to "Value4",
+                        "prop_1" to "value_1",
+                        "prop_2" to "value_2",
+                        "prop_3" to "value_3",
+                        "prop_4" to "value_4",
                     )
                 )
             )
