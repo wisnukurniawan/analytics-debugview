@@ -20,3 +20,4 @@ include ':sample'
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include ':debugview'
+include ':debugview-no-op'

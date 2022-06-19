@@ -27,6 +27,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -48,5 +49,6 @@ dependencies {
     kapt libs.androidx.room.compiler
     implementation libs.jetbrains.coroutines.android
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
-    implementation projects.debugview
+    debugImplementation projects.debugview
+    releaseImplementation projects.debugviewNoOp
 }
