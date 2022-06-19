@@ -4,6 +4,7 @@ import com.wisnu.kurniawan.debugview.internal.foundation.datastore.LocalManager
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.sanitizeQuery
 import com.wisnu.kurniawan.debugview.internal.model.Analytic
 import com.wisnu.kurniawan.debugview.internal.model.Event
+import com.wisnu.kurniawan.debugview.internal.model.SearchType
 import kotlinx.coroutines.flow.Flow
 
 internal class EventEnvironment(private val localManager: LocalManager) : IEventEnvironment {
@@ -11,12 +12,24 @@ internal class EventEnvironment(private val localManager: LocalManager) : IEvent
         return localManager.getAnalytic(tag)
     }
 
-    override fun searchEvent(analyticId: String, query: String): Flow<List<Event>> {
-        return if (query.isBlank()) {
-            localManager.getEvents(analyticId, LIMIT)
-        } else {
-            localManager.searchEvent(analyticId, LIMIT, query.sanitizeQuery())
+    override fun searchEvent(analyticId: String, search: SearchType): Flow<List<Event>> {
+        return when (search) {
+            is SearchType.Filter -> {
+                return if (search.texts.isEmpty()) {
+                    localManager.getEvents(analyticId, LIMIT)
+                } else {
+                    localManager.searchEvent(analyticId, LIMIT, search.texts)
+                }
+            }
+            is SearchType.Query -> {
+                return if (search.text.isBlank()) {
+                    localManager.getEvents(analyticId, LIMIT)
+                } else {
+                    localManager.searchEvent(analyticId, LIMIT, search.text.sanitizeQuery())
+                }
+            }
         }
+
     }
 
     override suspend fun updateAnalytic(analytic: Analytic) {

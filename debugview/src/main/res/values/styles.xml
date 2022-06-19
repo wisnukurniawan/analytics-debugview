@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="DebugViewTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:fitsSystemWindows">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryContainer">@color/primary</item>
-        <item name="colorSecondary">@color/itemBackgroundL1</item>
-        <item name="colorSecondaryContainer">@color/itemBackgroundL1</item>
-        <item name="backgroundColor">@color/backgroundL2</item>
-        <item name="colorSurface">@color/backgroundL1</item>
-        <item name="colorSurfaceVariant">@color/itemBackgroundL2</item>
-        <item name="colorError">@color/error</item>
-        <item name="colorOnPrimary">@color/on</item>
-        <item name="colorOnPrimaryContainer">@color/on</item>
-        <item name="colorOnSecondary">@color/on</item>
-        <item name="colorOnSecondaryContainer">@color/on</item>
-        <item name="colorOnBackground">@color/on</item>
-        <item name="colorOnSurface">@color/on</item>
-        <item name="colorOnSurfaceVariant">@color/on</item>
-        <item name="colorOnError">@color/on</item>
+        <item name="android:windowBackground">@color/debugview_backgroundl1</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="colorPrimary">@color/debugview_primary</item>
+        <item name="colorPrimaryContainer">@color/debugview_primary</item>
+        <item name="colorSecondary">@color/debugview_itembackgroundl1</item>
+        <item name="colorSecondaryContainer">@color/debugview_itembackgroundl1</item>
+        <item name="backgroundColor">@color/debugview_backgroundl2</item>
+        <item name="colorSurface">@color/debugview_backgroundl1</item>
+        <item name="colorSurfaceVariant">@color/debugview_itembackgroundl2</item>
+        <item name="colorError">@color/debugview_error</item>
+        <item name="colorOnPrimary">@color/debugview_on</item>
+        <item name="colorOnPrimaryContainer">@color/debugview_on</item>
+        <item name="colorOnSecondary">@color/debugview_on</item>
+        <item name="colorOnSecondaryContainer">@color/debugview_on</item>
+        <item name="colorOnBackground">@color/debugview_on</item>
+        <item name="colorOnSurface">@color/debugview_on</item>
+        <item name="colorOnSurfaceVariant">@color/debugview_on</item>
+        <item name="colorOnError">@color/debugview_on</item>
         <item name="textAppearanceDisplayLarge">@style/TextAppearance.App.DisplayLarge</item>
         <item name="textAppearanceDisplayMedium">@style/TextAppearance.App.DisplayMedium</item>
         <item name="textAppearanceDisplaySmall">@style/TextAppearance.App.DisplaySmall</item>
@@ -39,13 +41,18 @@
         <item name="textAppearanceLabelSmall">@style/TextAppearance.App.LabelSmall</item>
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="chipStyle">@style/Widget.App.Chip</item>
     </style>
+
+    <style name="Widget.App.Chip" parent="Widget.Material3.Chip.Filter"></style>
 
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
     </style>
 
     <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
     </style>
 
@@ -122,6 +129,23 @@
     <style name="TextAppearance.App.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
         <item name="fontWeight">400</item>
         <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.LargeComponent</item>
+        <item name="backgroundTint">@color/debugview_backgroundl2</item>
+        <item name="behavior_skipCollapsed">true</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="ShapeAppearance.App.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
     </style>
 
 </resources>

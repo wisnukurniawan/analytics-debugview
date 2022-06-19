@@ -17,7 +17,7 @@ internal class AnalyticViewModel(
             environment.getAnalytics()
                 .collect {
                     if (it.size == 1) {
-                        setEffect(AnalyticEffect.NavigateToEvent(it.first().tag))
+                        setEffect(AnalyticEffect.NavigateToEvent(it.first().tag, true))
                     } else {
                         setState { copy(analytics = it) }
                     }

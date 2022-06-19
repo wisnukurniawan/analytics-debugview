@@ -15,7 +15,7 @@ import com.wisnu.kurniawan.debugview.internal.foundation.di.DataModule
 import kotlinx.coroutines.launch
 
 
-internal class EventDetailsFragment : Fragment(R.layout.fragment_event_details) {
+internal class EventDetailsFragment : Fragment(R.layout.debugview_fragment_event_details) {
 
     lateinit var environment: IEventDetailsEnvironment
     lateinit var viewModel: EventDetailsViewModel

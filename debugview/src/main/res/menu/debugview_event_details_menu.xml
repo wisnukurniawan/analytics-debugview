@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/copy"
+        android:contentDescription="@string/debug_view_event_action_copy_title"
+        android:icon="@drawable/debugview_ic_copy"
+        android:title="@string/debug_view_event_action_copy_title"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/share"
+        android:contentDescription="@string/debug_view_event_action_share_title"
+        android:icon="@drawable/debugview_ic_share"
+        android:title="@string/debug_view_event_action_share_title"
+        app:showAsAction="ifRoom" />
+</menu>

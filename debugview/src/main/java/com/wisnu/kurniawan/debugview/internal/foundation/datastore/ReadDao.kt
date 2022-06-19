@@ -29,7 +29,7 @@ internal interface ReadDao {
     )
     fun getEventWithAnalytic(limit: Int): Flow<List<EventWithAnalytic>>
 
-    @Query("SELECT * FROM EventDb WHERE event_analyticId = :analyticId LIMIT :limit")
+    @Query("SELECT * FROM EventDb WHERE event_analyticId = :analyticId ORDER BY event_createdAt DESC LIMIT :limit")
     fun getEvents(analyticId: String, limit: Int): Flow<List<EventDb>>
 
     @Query("SELECT * FROM EventDb WHERE event_id = :id")
@@ -47,5 +47,18 @@ internal interface ReadDao {
             """
     )
     fun searchEvent(analyticId: String, limit: Int, query: String): Flow<List<EventDb>>
+
+    @Transaction
+    @Query(
+        """
+            SELECT *
+            FROM EventDb 
+            WHERE event_analyticId = :analyticId
+            AND event_name IN (:filters)
+            ORDER BY event_createdAt DESC
+            LIMIT :limit
+            """
+    )
+    fun searchEvent(analyticId: String, limit: Int, filters: List<String>): Flow<List<EventDb>>
 
 }

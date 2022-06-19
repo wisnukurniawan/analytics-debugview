@@ -69,6 +69,13 @@ internal class LocalManager(
             .flowOn(dispatcher)
     }
 
+    fun searchEvent(analyticId: String, limit: Int, filters: List<String>): Flow<List<Event>> {
+        return readDao.searchEvent(analyticId, limit, filters)
+            .filterNotNull()
+            .map { it.toEvents() }
+            .flowOn(dispatcher)
+    }
+
     suspend fun updateAnalytic(data: Analytic) {
         withContext(dispatcher) {
             writeDao.updateAnalytic(

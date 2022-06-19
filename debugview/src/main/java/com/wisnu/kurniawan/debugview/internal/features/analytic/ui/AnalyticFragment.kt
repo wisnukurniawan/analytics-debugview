@@ -1,7 +1,6 @@
 package com.wisnu.kurniawan.debugview.internal.features.analytic.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -16,7 +15,7 @@ import com.wisnu.kurniawan.debugview.internal.features.event.ui.EventFragment
 import com.wisnu.kurniawan.debugview.internal.foundation.di.DataModule
 import kotlinx.coroutines.launch
 
-internal class AnalyticFragment : Fragment(R.layout.fragment_analytic) {
+internal class AnalyticFragment : Fragment(R.layout.debugview_fragment_analytic) {
 
     private val adapter: AnalyticAdapter by lazy {
         AnalyticAdapter {
@@ -42,15 +41,13 @@ internal class AnalyticFragment : Fragment(R.layout.fragment_analytic) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.state.collect {
-                        Log.d("sadad", "ASdasd ${it.analytics}")
-
                         adapter.submitList(it.analytics)
                     }
                 }
                 launch {
                     viewModel.effect.collect {
                         when (it) {
-                            is AnalyticEffect.NavigateToEvent -> navigateToEventFragment(it.tag)
+                            is AnalyticEffect.NavigateToEvent -> navigateToEventFragment(it.tag, it.isSingle)
                         }
                     }
                 }
@@ -64,20 +61,22 @@ internal class AnalyticFragment : Fragment(R.layout.fragment_analytic) {
         rv.adapter = adapter
     }
 
-    private fun navigateToEventFragment(tag: String) {
+    private fun navigateToEventFragment(tag: String, isSingle: Boolean) {
         val bundle = Bundle()
         bundle.putString(EXTRA_TAG, tag)
+        bundle.putBoolean(EXTRA_IS_SINGLE, isSingle)
 
-        val fragmentManager = activity?.supportFragmentManager
-        fragmentManager?.beginTransaction()
-            ?.replace(R.id.analytic_fragment, EventFragment::class.java, bundle)
-            ?.setReorderingAllowed(true)
-            ?.addToBackStack(null)
-            ?.commit()
+        activity?.supportFragmentManager?.beginTransaction()?.apply {
+            replace(R.id.analytic_fragment, EventFragment::class.java, bundle)
+            setReorderingAllowed(true)
+            if (!isSingle) addToBackStack(null)
+            commit()
+        }
     }
 
     companion object {
         const val EXTRA_TAG = "EXTRA_TAG"
+        const val EXTRA_IS_SINGLE = "EXTRA_IS_SINGLE"
     }
 
 }

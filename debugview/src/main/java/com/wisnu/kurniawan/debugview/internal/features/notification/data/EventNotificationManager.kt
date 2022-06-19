@@ -4,7 +4,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.res.ResourcesCompat
 import com.wisnu.kurniawan.debugview.R
@@ -29,7 +28,7 @@ internal class EventNotificationManager(private val context: Context) {
             NotificationChannel(CHANNEL_ID, name, importance).apply {
                 this.description = description
                 enableLights(true)
-                lightColor = ResourcesCompat.getColor(context.resources, R.color.primary, null)
+                lightColor = ResourcesCompat.getColor(context.resources, R.color.debugview_primary, null)
                 enableVibration(true)
                 notificationManager?.createNotificationChannel(this)
             }
@@ -56,8 +55,8 @@ internal class EventNotificationManager(private val context: Context) {
         return NotificationCompat.Builder(context, CHANNEL_ID).apply {
 //            setContentIntent(buildPendingIntent(analytic.tag))
             setLocalOnly(true)
-            setSmallIcon(R.drawable.debug_view_ic_out)
-            setColor(ResourcesCompat.getColor(context.resources, R.color.primary, null))
+            setSmallIcon(R.drawable.debugview_ic_out)
+            setColor(ResourcesCompat.getColor(context.resources, R.color.debugview_primary, null))
             setContentTitle(context.getString(R.string.debug_view_title, analytic.tag))
             setAutoCancel(true)
             setColorized(true)

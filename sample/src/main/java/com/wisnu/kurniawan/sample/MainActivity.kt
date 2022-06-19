@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
         DebugView.init(
             this.applicationContext,
             "Analytic1",
-            "Analytic2",
         )
 
         findViewById<Button>(R.id.viewer).setOnClickListener {

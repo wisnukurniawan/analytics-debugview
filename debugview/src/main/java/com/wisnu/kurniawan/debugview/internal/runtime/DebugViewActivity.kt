@@ -14,7 +14,7 @@ class DebugViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         // todo test landscpe
-        setContentView(R.layout.activity_debug_view)
+        setContentView(R.layout.debugview_activity_debug_view)
 
         findViewById<View>(R.id.dv_container).doOnApplyWindowInsets { view, windowInsets, initialPadding ->
             val insets = windowInsets.getInsetsIgnoringVisibility(WindowInsetsCompat.Type.systemBars())
@@ -26,5 +26,4 @@ class DebugViewActivity : AppCompatActivity() {
             )
         }
     }
-
 }

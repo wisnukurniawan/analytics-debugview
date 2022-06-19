@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#F2355B</color>
-    <color name="backgroundL1">#000000</color>
-    <color name="itemBackgroundL1">#333333</color>
-    <color name="backgroundL2">#242424</color>
-    <color name="itemBackgroundL2">#383838</color>
-    <color name="on">#FFFFFF</color>
-    <color name="error">#B00020</color>
+    <color name="debugview_primary">#319DE6</color>
+    <color name="debugview_backgroundl1">#20232F</color>
+    <color name="debugview_itembackgroundl1">#373945</color>
+    <color name="debugview_backgroundl2">#2A2D39</color>
+    <color name="debugview_itembackgroundl2">#373945</color>
+    <color name="debugview_on">#FFFFFF</color>
+    <color name="debugview_error">#B00020</color>
 </resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_clear"
+        android:contentDescription="@string/debug_view_clear"
+        android:icon="@drawable/debugview_ic_clear"
+        android:title="@string/debug_view_clear"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_filter"
+        android:contentDescription="@string/debug_view_event_action_filter_title"
+        android:icon="@drawable/debugview_ic_filter_default"
+        android:title="@string/debug_view_event_action_filter_title"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_search"
+        android:contentDescription="@string/debug_view_event_action_search_title"
+        android:icon="@drawable/debugview_ic_search"
+        android:title="@string/debug_view_event_action_search_title"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
+
+</menu>

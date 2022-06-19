@@ -107,5 +107,70 @@ class ReadTest {
         )
     }
 
+    @Test
+    fun searchEvent2() = runBlocking {
+        val analytic1 = AnalyticDb(
+            id = "1",
+            tag = "name1",
+            isRecording = false,
+            createdAt = DateFactory.constantDate,
+            updatedAt = DateFactory.constantDate
+        )
+        val event1 = EventDb(
+            id = "1",
+            name = "name1",
+            createdAt = DateFactory.constantDate,
+            analyticId = "1",
+            properties = ""
+        )
+        val event2 = EventDb(
+            id = "2",
+            name = "name2",
+            createdAt = DateFactory.constantDate,
+            analyticId = "1",
+            properties = ""
+        )
+        val event3 = EventDb(
+            id = "3",
+            name = "name3",
+            createdAt = DateFactory.constantDate,
+            analyticId = "1",
+            properties = ""
+        )
+        val event4 = EventDb(
+            id = "4",
+            name = "aaa11",
+            createdAt = DateFactory.constantDate,
+            analyticId = "1",
+            properties = ""
+        )
+        val event5 = EventDb(
+            id = "5",
+            name = "aaa2",
+            createdAt = DateFactory.constantDate,
+            analyticId = "1",
+            properties = ""
+        )
+        val event6 = EventDb(
+            id = "6",
+            name = "name6",
+            createdAt = DateFactory.constantDate,
+            analyticId = "1",
+            properties = "aaa9"
+        )
+
+        writeDao.insertAnalytics(listOf(analytic1))
+        writeDao.insertEvent(event1)
+        writeDao.insertEvent(event2)
+        writeDao.insertEvent(event3)
+        writeDao.insertEvent(event4)
+        writeDao.insertEvent(event5)
+        writeDao.insertEvent(event6)
+
+        readDao.searchEvent("1", 10, listOf("name6", "name7", "aaa2", "aaa")).expect(
+            listOf(event5, event6)
+        )
+    }
+
 }
 
