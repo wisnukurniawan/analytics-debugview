@@ -13,7 +13,6 @@ class DebugViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        // todo test landscpe
         setContentView(R.layout.debugview_activity_debug_view)
 
         findViewById<View>(R.id.dv_container).doOnApplyWindowInsets { view, windowInsets, initialPadding ->

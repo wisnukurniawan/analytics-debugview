@@ -12,24 +12,26 @@ internal class AnalyticViewModel(
     environment
 ) {
 
-    init {
-        viewModelScope.launch {
-            environment.getAnalytics()
-                .collect {
-                    if (it.size == 1) {
-                        setEffect(AnalyticEffect.NavigateToEvent(it.first().tag, true))
-                    } else {
-                        setState { copy(analytics = it) }
-                    }
-                }
-        }
-    }
-
     override fun dispatch(action: AnalyticAction) {
         when (action) {
             is AnalyticAction.ClickAnalyticItem -> {
                 viewModelScope.launch {
                     setEffect(AnalyticEffect.NavigateToEvent(action.tag))
+                }
+            }
+            is AnalyticAction.Launch -> {
+                viewModelScope.launch {
+                    environment.getAnalytics()
+                        .collect {
+                            setState { copy(analytics = it) }
+
+                            val isSingle = it.size == 1
+                            if (action.tag.isNotBlank()) {
+                                setEffect(AnalyticEffect.NavigateToEvent(action.tag, isSingle))
+                            } else if (isSingle) {
+                                setEffect(AnalyticEffect.NavigateToEvent(it.first().tag, isSingle))
+                            }
+                        }
                 }
             }
         }

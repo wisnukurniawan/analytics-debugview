@@ -2,11 +2,14 @@ package com.wisnu.kurniawan.debugview.internal.features.notification.data
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.res.ResourcesCompat
 import com.wisnu.kurniawan.debugview.R
+import com.wisnu.kurniawan.debugview.internal.features.analytic.ui.AnalyticFragment
+import com.wisnu.kurniawan.debugview.internal.foundation.extension.getLaunchIntent
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toMillis
 import com.wisnu.kurniawan.debugview.internal.model.Analytic
 import com.wisnu.kurniawan.debugview.internal.model.Event
@@ -53,8 +56,7 @@ internal class EventNotificationManager(private val context: Context) {
 
     private fun buildNotification(analytic: Analytic, events: List<Event>): NotificationCompat.Builder {
         return NotificationCompat.Builder(context, CHANNEL_ID).apply {
-            // TODO handle click notif
-//            setContentIntent(buildPendingIntent(analytic.tag))
+            setContentIntent(buildPendingIntent(analytic.tag))
             setLocalOnly(true)
             setSmallIcon(R.drawable.debugview_ic_out)
             setColor(ResourcesCompat.getColor(context.resources, R.color.debugview_primary, null))
@@ -66,22 +68,19 @@ internal class EventNotificationManager(private val context: Context) {
         }
     }
 
-//    private fun buildPendingIntent(tag: String): PendingIntent {
-//        val openTaskIntent = Intent(
-//            Intent.ACTION_VIEW,
-//            StepFlow.TaskDetailScreen.deeplink(taskId, listId).toUri()
-//        )
-//        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//        } else {
-//            PendingIntent.FLAG_UPDATE_CURRENT
-//        }
-//
-//        return TaskStackBuilder.create(context).run {
-//            addNextIntentWithParentStack(openTaskIntent)
-//            getPendingIntent(REQUEST_CODE_OPEN_ANALYTIC, flags)
-//        }
-//    }
+    private fun buildPendingIntent(tag: String): PendingIntent {
+        val openTaskIntent = context.getLaunchIntent().apply {
+            putExtra(AnalyticFragment.EXTRA_TAG, tag)
+        }
+
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
+
+        return PendingIntent.getActivity(context, 0, openTaskIntent, flags)
+    }
 
     private fun setCount(builder: NotificationCompat.Builder, events: List<Event>) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

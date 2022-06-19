@@ -55,6 +55,8 @@ internal class AnalyticFragment : Fragment(R.layout.debugview_fragment_analytic)
                 }
             }
         }
+
+        viewModel.dispatch(AnalyticAction.Launch(activity?.intent?.extras?.getString(EXTRA_TAG).orEmpty()))
     }
 
     private fun initRecyclerView(view: View) {
