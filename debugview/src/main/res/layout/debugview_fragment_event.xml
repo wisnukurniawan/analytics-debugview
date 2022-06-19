@@ -14,7 +14,7 @@
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/debugview_event_menu"
             app:navigationIcon="@drawable/debugview_ic_arrow_back"
-            app:titleTextAppearance="@style/TextAppearance.App.TitleLarge"
+            app:titleTextAppearance="@style/DebugViewTextAppearance.App.TitleLarge"
             app:titleTextColor="?attr/colorOnSurface" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -26,11 +26,11 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/event_empty_tv"
-            style="@style/TextAppearance.App.BodyMedium"
+            style="@style/DebugViewTextAppearance.App.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.3"
-            android:text="@string/debug_view_event_empty"
+            android:text="@string/debugview_event_empty"
             android:textColor="?attr/colorOnSurface"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"

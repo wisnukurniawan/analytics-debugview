@@ -14,8 +14,8 @@
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/debugview_event_details_menu"
             app:navigationIcon="@drawable/debugview_ic_arrow_back"
-            app:title="@string/debug_view_event_details_title"
-            app:titleTextAppearance="@style/TextAppearance.App.TitleLarge"
+            app:title="@string/debugview_event_details_title"
+            app:titleTextAppearance="@style/DebugViewTextAppearance.App.TitleLarge"
             app:titleTextColor="?attr/colorOnSurface" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -31,7 +31,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/event_details_date"
-                style="@style/TextAppearance.App.TitleSmall"
+                style="@style/DebugViewTextAppearance.App.TitleSmall"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
@@ -43,7 +43,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/event_details_name"
-                style="@style/TextAppearance.App.HeadlineSmall"
+                style="@style/DebugViewTextAppearance.App.HeadlineSmall"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
@@ -67,7 +67,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/event_details_property"
-                    style="@style/TextAppearance.App.BodyLarge"
+                    style="@style/DebugViewTextAppearance.App.BodyLarge"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -77,12 +77,12 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/event_details_empty"
-                    style="@style/TextAppearance.App.BodyLarge"
+                    style="@style/DebugViewTextAppearance.App.BodyLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="200dp"
                     android:alpha="0.3"
                     android:gravity="center"
-                    android:text="@string/debug_view_event_empty"
+                    android:text="@string/debugview_event_empty"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -24,126 +24,126 @@
         <item name="colorOnSurface">@color/debugview_on</item>
         <item name="colorOnSurfaceVariant">@color/debugview_on</item>
         <item name="colorOnError">@color/debugview_on</item>
-        <item name="textAppearanceDisplayLarge">@style/TextAppearance.App.DisplayLarge</item>
-        <item name="textAppearanceDisplayMedium">@style/TextAppearance.App.DisplayMedium</item>
-        <item name="textAppearanceDisplaySmall">@style/TextAppearance.App.DisplaySmall</item>
-        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.App.HeadlineLarge</item>
-        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.App.HeadlineMedium</item>
-        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.App.HeadlineSmall</item>
-        <item name="textAppearanceTitleLarge">@style/TextAppearance.App.TitleLarge</item>
-        <item name="textAppearanceTitleMedium">@style/TextAppearance.App.TitleMedium</item>
-        <item name="textAppearanceTitleSmall">@style/TextAppearance.App.TitleSmall</item>
-        <item name="textAppearanceBodyLarge">@style/TextAppearance.App.BodyLarge</item>
-        <item name="textAppearanceBodyMedium">@style/TextAppearance.App.BodyMedium</item>
-        <item name="textAppearanceBodySmall">@style/TextAppearance.App.BodySmall</item>
-        <item name="textAppearanceLabelLarge">@style/TextAppearance.App.LabelLarge</item>
-        <item name="textAppearanceLabelMedium">@style/TextAppearance.App.LabelMedium</item>
-        <item name="textAppearanceLabelSmall">@style/TextAppearance.App.LabelSmall</item>
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
-        <item name="chipStyle">@style/Widget.App.Chip</item>
+        <item name="textAppearanceDisplayLarge">@style/DebugViewTextAppearance.App.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/DebugViewTextAppearance.App.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/DebugViewTextAppearance.App.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/DebugViewTextAppearance.App.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/DebugViewTextAppearance.App.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/DebugViewTextAppearance.App.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/DebugViewTextAppearance.App.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/DebugViewTextAppearance.App.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/DebugViewTextAppearance.App.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/DebugViewTextAppearance.App.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/DebugViewTextAppearance.App.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/DebugViewTextAppearance.App.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/DebugViewTextAppearance.App.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/DebugViewTextAppearance.App.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/DebugViewTextAppearance.App.LabelSmall</item>
+        <item name="shapeAppearanceSmallComponent">@style/DebugViewShapeAppearance.App.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/DebugViewShapeAppearance.App.MediumComponent</item>
+        <item name="chipStyle">@style/DebugViewWidget.App.Chip</item>
     </style>
 
-    <style name="Widget.App.Chip" parent="Widget.Material3.Chip.Filter"></style>
+    <style name="DebugViewWidget.App.Chip" parent="Widget.Material3.Chip.Filter"></style>
 
-    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+    <style name="DebugViewShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">4dp</item>
     </style>
 
-    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+    <style name="DebugViewShapeAppearance.App.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
     </style>
 
-    <style name="TextAppearance.App.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+    <style name="DebugViewTextAppearance.App.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
         <item name="fontWeight">400</item>
         <item name="android:textSize">57sp</item>
     </style>
 
-    <style name="TextAppearance.App.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+    <style name="DebugViewTextAppearance.App.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
         <item name="fontWeight">400</item>
         <item name="android:textSize">45sp</item>
     </style>
 
-    <style name="TextAppearance.App.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+    <style name="DebugViewTextAppearance.App.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
         <item name="fontWeight">500</item>
         <item name="android:textSize">36sp</item>
     </style>
 
-    <style name="TextAppearance.App.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+    <style name="DebugViewTextAppearance.App.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
         <item name="fontWeight">400</item>
         <item name="android:textSize">32sp</item>
     </style>
 
-    <style name="TextAppearance.App.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+    <style name="DebugViewTextAppearance.App.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
         <item name="fontWeight">400</item>
         <item name="android:textSize">28sp</item>
     </style>
 
-    <style name="TextAppearance.App.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+    <style name="DebugViewTextAppearance.App.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="fontWeight">400</item>
         <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="TextAppearance.App.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+    <style name="DebugViewTextAppearance.App.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
         <item name="fontWeight">700</item>
         <item name="android:textSize">22sp</item>
     </style>
 
-    <style name="TextAppearance.App.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+    <style name="DebugViewTextAppearance.App.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
         <item name="fontWeight">600</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="TextAppearance.App.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+    <style name="DebugViewTextAppearance.App.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
         <item name="fontWeight">500</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="TextAppearance.App.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+    <style name="DebugViewTextAppearance.App.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
         <item name="fontWeight">400</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="TextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+    <style name="DebugViewTextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
         <item name="fontWeight">400</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="TextAppearance.App.BodySmall" parent="TextAppearance.Material3.BodySmall">
+    <style name="DebugViewTextAppearance.App.BodySmall" parent="TextAppearance.Material3.BodySmall">
         <item name="fontWeight">400</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+    <style name="DebugViewTextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
         <item name="fontWeight">400</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="TextAppearance.App.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+    <style name="DebugViewTextAppearance.App.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
         <item name="fontWeight">400</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="TextAppearance.App.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+    <style name="DebugViewTextAppearance.App.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
         <item name="fontWeight">400</item>
         <item name="android:textSize">10sp</item>
     </style>
 
-    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
+    <style name="DebugViewThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/DebugViewModalBottomSheetDialog</item>
     </style>
 
-    <style name="ModalBottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
-        <item name="shapeAppearance">@style/ShapeAppearance.App.LargeComponent</item>
+    <style name="DebugViewModalBottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearance">@style/DebugViewShapeAppearance.App.LargeComponent</item>
         <item name="backgroundTint">@color/debugview_backgroundl2</item>
         <item name="behavior_skipCollapsed">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="android:windowIsFloating">false</item>
     </style>
 
-    <style name="ShapeAppearance.App.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+    <style name="DebugViewShapeAppearance.App.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">24dp</item>
     </style>

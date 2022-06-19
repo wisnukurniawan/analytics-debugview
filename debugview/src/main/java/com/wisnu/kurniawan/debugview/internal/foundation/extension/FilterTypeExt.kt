@@ -26,7 +26,7 @@ internal fun List<FilterItem>.selected(): FilterType {
 }
 
 internal fun FilterType.stringResource() = when (this) {
-    FilterType.NEW_LINE -> R.string.debug_view_event_filter_type_newline
-    FilterType.COMMA -> R.string.debug_view_event_filter_type_comma
-    FilterType.COLON -> R.string.debug_view_event_filter_type_colon
+    FilterType.NEW_LINE -> R.string.debugview_event_filter_type_newline
+    FilterType.COMMA -> R.string.debugview_event_filter_type_comma
+    FilterType.COLON -> R.string.debugview_event_filter_type_colon
 }

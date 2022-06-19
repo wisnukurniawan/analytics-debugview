@@ -149,7 +149,7 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
             }
         )
         val editText = actionSearch.actionView.findViewById<View>(androidx.appcompat.R.id.search_src_text) as EditText
-        editText.hint = getString(R.string.debug_view_event_search_hint)
+        editText.hint = getString(R.string.debugview_event_search_hint)
     }
 
     private fun initRecyclerView(view: View) {
@@ -176,11 +176,11 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
         val value = TypedValue()
         if (state.analytic.isRecording) {
             requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorError, value, true)
-            recordingButton.setText(R.string.debug_view_event_stop_recording)
+            recordingButton.setText(R.string.debugview_event_stop_recording)
             recordingButton.setBackgroundColor(value.data)
         } else {
             requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, value, true)
-            recordingButton.setText(R.string.debug_view_event_start_recording)
+            recordingButton.setText(R.string.debugview_event_start_recording)
             recordingButton.setBackgroundColor(value.data)
         }
     }
@@ -225,7 +225,7 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
     }
 
     private fun showToastCleared() {
-        Toast.makeText(requireContext(), getString(R.string.debug_view_event_cleared), Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.debugview_event_cleared), Toast.LENGTH_SHORT).show()
     }
 
     companion object {

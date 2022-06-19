@@ -4,14 +4,13 @@ apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'kotlin-kapt'
 
 android {
+    resourcePrefix 'debugview_'
+
     compileSdkVersion project.ext.compileSdkVersion
-    buildToolsVersion project.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion project.ext.minSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
         vectorDrawables.useSupportLibrary = true
     }
 

@@ -74,12 +74,12 @@ internal class AnalyticViewHolder(
             itemView.context.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, value, true)
             status.setTextColor(value.data)
             status.alpha = 1.0F
-            status.text = itemView.context.getString(R.string.debug_view_analytic_recording)
+            status.text = itemView.context.getString(R.string.debugview_analytic_recording)
         } else {
             itemView.context.theme.resolveAttribute(com.google.android.material.R.attr.colorOnSurface, value, true)
             status.setTextColor(value.data)
             status.alpha = 0.3F
-            status.text = itemView.context.getString(R.string.debug_view_analytic_inactive)
+            status.text = itemView.context.getString(R.string.debugview_analytic_inactive)
         }
     }
 

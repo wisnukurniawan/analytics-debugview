@@ -6,22 +6,22 @@
     android:padding="16dp">
 
     <androidx.appcompat.widget.AppCompatTextView
-        style="@style/TextAppearance.App.TitleMedium"
+        style="@style/DebugViewTextAppearance.App.TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginBottom="24dp"
-        android:text="@string/debug_view_event_action_filter_title"
+        android:text="@string/debugview_event_action_filter_title"
         app:layout_constraintBottom_toTopOf="@+id/filter_title_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/filter_title_tv"
-        style="@style/TextAppearance.App.TitleSmall"
+        style="@style/DebugViewTextAppearance.App.TitleSmall"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
-        android:text="@string/debug_view_event_filter_type_title"
+        android:text="@string/debugview_event_filter_type_title"
         app:layout_constraintBottom_toTopOf="@+id/filter_type_chip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -48,7 +48,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/filter_title_text"
-            style="@style/TextAppearance.App.BodyLarge"
+            style="@style/DebugViewTextAppearance.App.BodyLarge"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
@@ -80,13 +80,13 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/filter_title_text_hint"
-            style="@style/TextAppearance.App.BodyLarge"
+            style="@style/DebugViewTextAppearance.App.BodyLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="2dp"
             android:alpha="0.3"
-            android:text="@string/debug_view_event_filter_hint"
+            android:text="@string/debugview_event_filter_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guide" />
@@ -98,7 +98,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="@string/debug_view_event_reset_filter"
+        android:text="@string/debugview_event_reset_filter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/event_apply_filter_button"
         app:layout_constraintStart_toStartOf="parent" />
@@ -109,7 +109,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="@string/debug_view_event_apply_filter"
+        android:text="@string/debugview_event_apply_filter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/event_reset_filter_button" />

@@ -7,7 +7,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/analytic_item_tv"
-        style="@style/TextAppearance.App.TitleMedium"
+        style="@style/DebugViewTextAppearance.App.TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -18,7 +18,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/analytic_item_status_tv"
-        style="@style/TextAppearance.App.TitleSmall"
+        style="@style/DebugViewTextAppearance.App.TitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

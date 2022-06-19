@@ -32,7 +32,7 @@ internal class EventFilterFragment : BottomSheetDialogFragment() {
         super.onCreate(savedInstanceState)
         EventFilterModule.inject(this, this)
 
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_App_BottomSheetDialog)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.DebugViewThemeOverlay_App_BottomSheetDialog)
     }
 
     override fun onCreateView(
@@ -117,7 +117,7 @@ internal class EventFilterFragment : BottomSheetDialogFragment() {
                             chipGroup.context,
                             null,
                             0,
-                            R.style.Widget_App_Chip
+                            R.style.DebugViewWidget_App_Chip
                         )
                     )
                     tag = filterItem.filterType

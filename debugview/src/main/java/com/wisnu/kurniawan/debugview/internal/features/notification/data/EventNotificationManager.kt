@@ -24,8 +24,8 @@ internal class EventNotificationManager(private val context: Context) {
 
     private fun initChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = context.getString(R.string.debug_view_channel_name)
-            val description = context.getString(R.string.debug_view_channel_description)
+            val name = context.getString(R.string.debugview_channel_name)
+            val description = context.getString(R.string.debugview_channel_description)
             val importance = NotificationManager.IMPORTANCE_LOW
 
             NotificationChannel(CHANNEL_ID, name, importance).apply {
@@ -60,7 +60,7 @@ internal class EventNotificationManager(private val context: Context) {
             setLocalOnly(true)
             setSmallIcon(R.drawable.debugview_ic_out)
             setColor(ResourcesCompat.getColor(context.resources, R.color.debugview_primary, null))
-            setContentTitle(context.getString(R.string.debug_view_title, analytic.tag))
+            setContentTitle(context.getString(R.string.debugview_title, analytic.tag))
             setAutoCancel(true)
             setColorized(true)
             setStyle(buildInboxStyle(this, events))

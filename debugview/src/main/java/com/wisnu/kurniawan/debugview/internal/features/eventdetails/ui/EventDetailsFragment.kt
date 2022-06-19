@@ -117,7 +117,7 @@ internal class EventDetailsFragment : Fragment(R.layout.debugview_fragment_event
         val clipBoard = getSystemService(requireContext(), ClipboardManager::class.java)
         val clip = ClipData.newPlainText("label", content)
         clipBoard?.setPrimaryClip(clip)
-        Toast.makeText(requireContext(), getString(R.string.debug_view_event_copied), Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.debugview_event_copied), Toast.LENGTH_SHORT).show()
     }
 
 }
