@@ -3,7 +3,6 @@ package com.wisnu.kurniawan.debugview.internal.features.event.ui
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.debugview.internal.features.event.data.IEventEnvironment
 import com.wisnu.kurniawan.debugview.internal.foundation.viewmodel.StatefulViewModel
-import com.wisnu.kurniawan.debugview.internal.model.SearchType
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.onEach
@@ -32,7 +31,7 @@ internal class EventViewModel(
                     environment.getAnalytic(action.tag)
                         .take(1)
                         .onEach { setState { copy(analytic = it) } }
-                        .flatMapConcat { environment.searchEvent(it.id) }
+                        .flatMapConcat { environment.searchEvent(it.id, state.value.getSearchType()) }
                         .collect {
                             setState { copy(events = it) }
                         }
@@ -48,7 +47,8 @@ internal class EventViewModel(
             is EventAction.InputSearchEvent -> {
                 searchJob?.cancel()
                 searchJob = viewModelScope.launch {
-                    environment.searchEvent(state.value.analytic.id, SearchType.Query(action.text))
+                    setState { copy(searchText = action.text) }
+                    environment.searchEvent(state.value.analytic.id, state.value.getSearchType())
                         .collect {
                             setState { copy(events = it) }
                         }
@@ -59,7 +59,7 @@ internal class EventViewModel(
                 searchJob = viewModelScope.launch {
                     setState { copy(filterConfig = filterConfig.copy(text = action.text, type = action.filterType)) }
 
-                    environment.searchEvent(state.value.analytic.id, SearchType.Filter(state.value.filterQuery))
+                    environment.searchEvent(state.value.analytic.id, state.value.getSearchType())
                         .collect {
                             setState { copy(events = it) }
                         }

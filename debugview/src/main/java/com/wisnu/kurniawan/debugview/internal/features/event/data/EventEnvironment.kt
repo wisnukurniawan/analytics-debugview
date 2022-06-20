@@ -1,7 +1,6 @@
 package com.wisnu.kurniawan.debugview.internal.features.event.data
 
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.LocalManager
-import com.wisnu.kurniawan.debugview.internal.foundation.extension.sanitizeQuery
 import com.wisnu.kurniawan.debugview.internal.model.Analytic
 import com.wisnu.kurniawan.debugview.internal.model.Event
 import com.wisnu.kurniawan.debugview.internal.model.SearchType
@@ -14,20 +13,10 @@ internal class EventEnvironment(private val localManager: LocalManager) : IEvent
 
     override fun searchEvent(analyticId: String, search: SearchType): Flow<List<Event>> {
         return when (search) {
-            is SearchType.Filter -> {
-                if (search.texts.isEmpty()) {
-                    localManager.getEvents(analyticId, LIMIT)
-                } else {
-                    localManager.searchEvent(analyticId, LIMIT, search.texts)
-                }
-            }
-            is SearchType.Query -> {
-                if (search.text.isBlank()) {
-                    localManager.getEvents(analyticId, LIMIT)
-                } else {
-                    localManager.searchEvent(analyticId, LIMIT, search.text.sanitizeQuery())
-                }
-            }
+            SearchType.Default -> localManager.getEvents(analyticId, LIMIT)
+            is SearchType.Filter -> localManager.searchEvent(analyticId, LIMIT, search.texts)
+            is SearchType.Query -> localManager.searchEvent(analyticId, LIMIT, search.text)
+            is SearchType.QueryAndFilter -> localManager.searchEvent(analyticId, LIMIT, search.text, search.texts)
         }
     }
 

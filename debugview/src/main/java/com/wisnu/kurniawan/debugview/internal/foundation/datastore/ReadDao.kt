@@ -29,11 +29,19 @@ internal interface ReadDao {
     )
     fun getEventWithAnalytic(limit: Int): Flow<List<EventWithAnalytic>>
 
-    @Query("SELECT * FROM EventDb WHERE event_analyticId = :analyticId ORDER BY event_createdAt DESC LIMIT :limit")
-    fun getEvents(analyticId: String, limit: Int): Flow<List<EventDb>>
-
     @Query("SELECT * FROM EventDb WHERE event_id = :id")
     fun getEvent(id: String): Flow<EventDb>
+
+    @Query(
+        """
+            SELECT * 
+            FROM EventDb 
+            WHERE event_analyticId = :analyticId 
+            ORDER BY EventDb.event_createdAt DESC
+            LIMIT :limit
+    """
+    )
+    fun getEvents(analyticId: String, limit: Int): Flow<List<EventDb>>
 
     @Transaction
     @Query(
@@ -41,8 +49,9 @@ internal interface ReadDao {
             SELECT *
             FROM EventDb 
             JOIN EventFtsDb ON EventDb.event_name = EventFtsDb.event_name
-            WHERE event_analyticId = :analyticId AND EventFtsDb MATCH :query
-            ORDER BY event_createdAt DESC
+            WHERE event_analyticId = :analyticId 
+            AND EventFtsDb MATCH :query
+            ORDER BY EventDb.event_createdAt DESC
             LIMIT :limit
             """
     )
@@ -55,10 +64,25 @@ internal interface ReadDao {
             FROM EventDb 
             WHERE event_analyticId = :analyticId
             AND event_name IN (:filters)
-            ORDER BY event_createdAt DESC
+            ORDER BY EventDb.event_createdAt DESC
             LIMIT :limit
             """
     )
     fun searchEvent(analyticId: String, limit: Int, filters: List<String>): Flow<List<EventDb>>
+
+    @Transaction
+    @Query(
+        """
+            SELECT *
+            FROM EventDb 
+            JOIN EventFtsDb ON EventDb.event_name = EventFtsDb.event_name
+            WHERE event_analyticId = :analyticId
+            AND EventFtsDb MATCH :query
+            AND EventDb.event_name IN (:filters)
+            ORDER BY EventDb.event_createdAt DESC
+            LIMIT :limit
+            """
+    )
+    fun searchEvent(analyticId: String, limit: Int, query: String, filters: List<String>): Flow<List<EventDb>>
 
 }

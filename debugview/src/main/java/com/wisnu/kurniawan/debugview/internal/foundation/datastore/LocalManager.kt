@@ -49,16 +49,16 @@ internal class LocalManager(
             .flowOn(dispatcher)
     }
 
+    fun getEvent(id: String): Flow<Event> {
+        return readDao.getEvent(id)
+            .map { it.toEvent() }
+            .flowOn(dispatcher)
+    }
+
     fun getEvents(analyticId: String, limit: Int): Flow<List<Event>> {
         return readDao.getEvents(analyticId, limit)
             .filterNotNull()
             .map { it.toEvents() }
-            .flowOn(dispatcher)
-    }
-
-    fun getEvent(id: String): Flow<Event> {
-        return readDao.getEvent(id)
-            .map { it.toEvent() }
             .flowOn(dispatcher)
     }
 
@@ -71,6 +71,13 @@ internal class LocalManager(
 
     fun searchEvent(analyticId: String, limit: Int, filters: List<String>): Flow<List<Event>> {
         return readDao.searchEvent(analyticId, limit, filters)
+            .filterNotNull()
+            .map { it.toEvents() }
+            .flowOn(dispatcher)
+    }
+
+    fun searchEvent(analyticId: String, limit: Int, query: String, filters: List<String>): Flow<List<Event>> {
+        return readDao.searchEvent(analyticId, limit, query, filters)
             .filterNotNull()
             .map { it.toEvents() }
             .flowOn(dispatcher)
