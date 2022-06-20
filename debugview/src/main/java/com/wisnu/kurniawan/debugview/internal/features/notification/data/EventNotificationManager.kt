@@ -41,8 +41,8 @@ internal class EventNotificationManager(private val context: Context) {
     fun show(analytic: Analytic, events: List<Event>) {
         if (events.isEmpty()) return
 
-        val builder = buildNotification(analytic, events)
         val id = analytic.createdAt.toMillis().toInt()
+        val builder = buildNotification(id, analytic.tag, events)
         notificationManager?.notify(
             id,
             builder.build()
@@ -54,13 +54,13 @@ internal class EventNotificationManager(private val context: Context) {
         notificationManager?.cancel(id)
     }
 
-    private fun buildNotification(analytic: Analytic, events: List<Event>): NotificationCompat.Builder {
+    private fun buildNotification(id: Int, tag: String, events: List<Event>): NotificationCompat.Builder {
         return NotificationCompat.Builder(context, CHANNEL_ID).apply {
-            setContentIntent(buildPendingIntent(analytic.tag))
+            setContentIntent(buildPendingIntent(id, tag))
             setLocalOnly(true)
             setSmallIcon(R.drawable.debugview_ic_out)
             setColor(ResourcesCompat.getColor(context.resources, R.color.debugview_primary, null))
-            setContentTitle(context.getString(R.string.debugview_title, analytic.tag))
+            setContentTitle(context.getString(R.string.debugview_title, tag))
             setAutoCancel(true)
             setColorized(true)
             setStyle(buildInboxStyle(this, events))
@@ -68,7 +68,7 @@ internal class EventNotificationManager(private val context: Context) {
         }
     }
 
-    private fun buildPendingIntent(tag: String): PendingIntent {
+    private fun buildPendingIntent(id: Int, tag: String): PendingIntent {
         val openTaskIntent = context.getLaunchIntent().apply {
             putExtra(AnalyticFragment.EXTRA_TAG, tag)
         }
@@ -79,7 +79,7 @@ internal class EventNotificationManager(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT
         }
 
-        return PendingIntent.getActivity(context, 0, openTaskIntent, flags)
+        return PendingIntent.getActivity(context, id, openTaskIntent, flags)
     }
 
     private fun setCount(builder: NotificationCompat.Builder, events: List<Event>) {

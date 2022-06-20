@@ -34,7 +34,7 @@ internal class AnalyticFragment : Fragment(R.layout.debugview_fragment_analytic)
         AnalyticModule.inject(this, DataModule.localManager)
         AnalyticModule.inject(this, this, environment)
 
-        viewModel.dispatch(AnalyticAction.Launch(activity?.intent?.extras?.getString(EXTRA_TAG).orEmpty()))
+        viewModel.dispatch(AnalyticAction.Launch(arguments?.getString(EXTRA_TAG).orEmpty()))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
