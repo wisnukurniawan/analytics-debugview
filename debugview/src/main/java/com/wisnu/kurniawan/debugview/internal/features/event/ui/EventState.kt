@@ -7,7 +7,6 @@ import com.wisnu.kurniawan.debugview.internal.model.Event
 internal data class EventState(
     val analytic: Analytic,
     val events: List<Event>,
-    val isFilterApplied: Boolean,
     val searchText: String
 ) {
 
@@ -20,7 +19,6 @@ internal data class EventState(
                 createdAt = DateTimeProviderImpl().now()
             ),
             listOf(),
-            false,
             ""
         )
     }

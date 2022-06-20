@@ -14,30 +14,22 @@ internal class EventEnvironment(private val localManager: LocalManager) : IEvent
         return localManager.getAnalytic(tag)
     }
 
-    override fun searchEvent(analyticId: String, searchText: String): Flow<Pair<Boolean, List<Event>>> {
+    override fun searchEvent(analyticId: String, searchText: String): Flow<List<Event>> {
         return localManager.getFilterConfig()
             .map { it.getSearchType(searchText) }
             .flatMapConcat { searchType ->
                 when (searchType) {
                     SearchType.Default -> {
-                        localManager.getEvents(analyticId, LIMIT).map {
-                            Pair(false, it)
-                        }
+                        localManager.getEvents(analyticId, LIMIT)
                     }
                     is SearchType.Filter -> {
-                        localManager.searchEvent(analyticId, LIMIT, searchType.texts).map {
-                            Pair(true, it)
-                        }
+                        localManager.searchEvent(analyticId, LIMIT, searchType.texts)
                     }
                     is SearchType.Query -> {
-                        localManager.searchEvent(analyticId, LIMIT, searchType.text).map {
-                            Pair(false, it)
-                        }
+                        localManager.searchEvent(analyticId, LIMIT, searchType.text)
                     }
                     is SearchType.QueryAndFilter -> {
-                        localManager.searchEvent(analyticId, LIMIT, searchType.text, searchType.texts).map {
-                            Pair(true, it)
-                        }
+                        localManager.searchEvent(analyticId, LIMIT, searchType.text, searchType.texts)
                     }
                 }
             }

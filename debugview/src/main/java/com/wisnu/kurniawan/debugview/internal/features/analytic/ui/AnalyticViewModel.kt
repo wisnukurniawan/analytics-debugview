@@ -21,17 +21,28 @@ internal class AnalyticViewModel(
             }
             is AnalyticAction.Launch -> {
                 viewModelScope.launch {
+                    if (action.tag.isNotBlank()) {
+                        setEffect(AnalyticEffect.NavigateToEvent(action.tag))
+                    }
+                }
+
+                viewModelScope.launch {
                     environment.getAnalytics()
                         .collect {
                             setState { copy(analytics = it) }
-
-                            val isSingle = it.size == 1
-                            if (action.tag.isNotBlank()) {
-                                setEffect(AnalyticEffect.NavigateToEvent(action.tag, isSingle))
-                            } else if (isSingle) {
-                                setEffect(AnalyticEffect.NavigateToEvent(it.first().tag, isSingle))
-                            }
                         }
+                }
+
+                viewModelScope.launch {
+                    environment.getFilterConfig()
+                        .collect {
+                            setState { copy(isFilterApplied = it.text.isNotBlank()) }
+                        }
+                }
+            }
+            AnalyticAction.ClickFilter -> {
+                viewModelScope.launch {
+                    setEffect(AnalyticEffect.ShowFilterSheet)
                 }
             }
         }

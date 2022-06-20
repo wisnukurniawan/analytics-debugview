@@ -8,7 +8,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +21,6 @@ import com.wisnu.kurniawan.debugview.internal.features.analytic.ui.AnalyticFragm
 import com.wisnu.kurniawan.debugview.internal.features.event.data.IEventEnvironment
 import com.wisnu.kurniawan.debugview.internal.features.event.di.EventModule
 import com.wisnu.kurniawan.debugview.internal.features.eventdetails.ui.EventDetailsFragment
-import com.wisnu.kurniawan.debugview.internal.features.eventfilter.ui.EventFilterFragment
 import com.wisnu.kurniawan.debugview.internal.features.notification.data.EventNotificationManager
 import com.wisnu.kurniawan.debugview.internal.foundation.di.DataModule
 import com.wisnu.kurniawan.debugview.internal.model.Analytic
@@ -59,24 +57,18 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
         initRecyclerView(view)
         initRecordingButton(view)
 
-        requireActivity().supportFragmentManager.setFragmentResultListener(RC_APPLY_FILTER, viewLifecycleOwner) { _, _ ->
-            viewModel.dispatch(EventAction.ApplyFilter)
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.state.collect {
                         renderContent(it, view)
                         renderRecordingButton(it, view)
-                        renderFilter(it, view)
                     }
                 }
                 launch {
                     viewModel.effect.collect {
                         when (it) {
                             is EventEffect.NavigateToEventDetails -> navigateToEventDetailsFragment(it.id)
-                            is EventEffect.ShowFilterSheet -> showFilterSheet()
                             is EventEffect.Cleared -> showToastCleared(it.analytic)
                         }
                     }
@@ -91,11 +83,6 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
         requireArguments().getString(AnalyticFragment.EXTRA_TAG)?.let {
             toolbar.title = it
         }
-        requireArguments().getBoolean(AnalyticFragment.EXTRA_IS_SINGLE).let {
-            if (it) {
-                toolbar.navigationIcon = null
-            }
-        }
 
         toolbar.setNavigationOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
@@ -108,10 +95,6 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
                 }
                 R.id.action_clear -> {
                     viewModel.dispatch(EventAction.ClickClearAll)
-                    true
-                }
-                R.id.action_filter -> {
-                    viewModel.dispatch(EventAction.ClickFilter)
                     true
                 }
                 else -> {
@@ -193,17 +176,6 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
         }
     }
 
-    private fun renderFilter(state: EventState, view: View) {
-        val toolbar = view.findViewById<MaterialToolbar>(R.id.event_toolbar)
-        val actionFilter = toolbar.menu.findItem(R.id.action_filter)
-
-        if (state.isFilterApplied) {
-            actionFilter.icon = ContextCompat.getDrawable(requireContext(), R.drawable.debugview_ic_filter_applied)
-        } else {
-            actionFilter.icon = ContextCompat.getDrawable(requireContext(), R.drawable.debugview_ic_filter_default)
-        }
-    }
-
     private fun navigateToEventDetailsFragment(id: String) {
         val bundle = Bundle()
         bundle.putString(EXTRA_EVENT_ID, id)
@@ -216,11 +188,6 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
             ?.commit()
     }
 
-    private fun showFilterSheet() {
-        val modalBottomSheet = EventFilterFragment()
-        modalBottomSheet.show(requireActivity().supportFragmentManager, EventFilterFragment.TAG)
-    }
-
     private fun showToastCleared(analytic: Analytic) {
         eventNotificationManager.dismiss(analytic)
         Toast.makeText(requireContext(), getString(R.string.debugview_event_cleared), Toast.LENGTH_SHORT).show()
@@ -228,7 +195,6 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
 
     companion object {
         const val EXTRA_EVENT_ID = "EXTRA_EVENT_ID"
-        const val RC_APPLY_FILTER = "RC_APPLY_FILTER"
     }
 
 }

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 internal interface IEventEnvironment {
     fun getAnalytic(tag: String): Flow<Analytic>
-    fun searchEvent(analyticId: String, searchText: String): Flow<Pair<Boolean, List<Event>>>
+    fun searchEvent(analyticId: String, searchText: String): Flow<List<Event>>
     suspend fun updateAnalytic(analytic: Analytic)
     suspend fun deleteEvent(analyticId: String)
 }

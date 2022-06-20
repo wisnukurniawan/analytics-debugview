@@ -10,13 +10,6 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_filter"
-        android:contentDescription="@string/debugview_event_action_filter_title"
-        android:icon="@drawable/debugview_ic_filter_default"
-        android:title="@string/debugview_event_action_filter_title"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/action_search"
         android:contentDescription="@string/debugview_event_action_search_title"
         android:icon="@drawable/debugview_ic_search"

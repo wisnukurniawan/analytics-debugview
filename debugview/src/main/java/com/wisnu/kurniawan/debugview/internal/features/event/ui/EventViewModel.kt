@@ -32,8 +32,8 @@ internal class EventViewModel(
                         .take(1)
                         .onEach { setState { copy(analytic = it) } }
                         .flatMapConcat { environment.searchEvent(it.id, state.value.searchText) }
-                        .collect { (isFilterApplied, events) ->
-                            setState { copy(events = events, isFilterApplied = isFilterApplied) }
+                        .collect { events ->
+                            setState { copy(events = events) }
                         }
                 }
             }
@@ -49,8 +49,8 @@ internal class EventViewModel(
                 searchJob = viewModelScope.launch {
                     setState { copy(searchText = action.text) }
                     environment.searchEvent(state.value.analytic.id, state.value.searchText)
-                        .collect { (isFilterApplied, events) ->
-                            setState { copy(events = events, isFilterApplied = isFilterApplied) }
+                        .collect { events ->
+                            setState { copy(events = events) }
                         }
                 }
             }
@@ -58,20 +58,6 @@ internal class EventViewModel(
                 viewModelScope.launch {
                     setEffect(EventEffect.Cleared(state.value.analytic))
                     environment.deleteEvent(state.value.analytic.id)
-                }
-            }
-            EventAction.ClickFilter -> {
-                viewModelScope.launch {
-                    setEffect(EventEffect.ShowFilterSheet)
-                }
-            }
-            EventAction.ApplyFilter -> {
-                searchJob?.cancel()
-                searchJob = viewModelScope.launch {
-                    environment.searchEvent(state.value.analytic.id, state.value.searchText)
-                        .collect { (isFilterApplied, events) ->
-                            setState { copy(events = events, isFilterApplied = isFilterApplied) }
-                        }
                 }
             }
         }

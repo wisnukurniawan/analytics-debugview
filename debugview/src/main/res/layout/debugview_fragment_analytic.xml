@@ -12,6 +12,8 @@
             android:id="@+id/analytic_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/debugview_analytic"
+            app:title="@string/debugview_analytic_title"
             app:titleTextAppearance="@style/DebugViewTextAppearance.App.TitleLarge"
             app:titleTextColor="?attr/colorOnSurface" />
 

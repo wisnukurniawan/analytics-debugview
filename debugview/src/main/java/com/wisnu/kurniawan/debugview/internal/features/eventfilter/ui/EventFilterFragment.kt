@@ -18,7 +18,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.wisnu.kurniawan.debugview.R
-import com.wisnu.kurniawan.debugview.internal.features.event.ui.EventFragment
 import com.wisnu.kurniawan.debugview.internal.features.eventfilter.data.IEventFilterEnvironment
 import com.wisnu.kurniawan.debugview.internal.features.eventfilter.di.EventFilterModule
 import com.wisnu.kurniawan.debugview.internal.foundation.di.DataModule
@@ -154,7 +153,6 @@ internal class EventFilterFragment : BottomSheetDialogFragment() {
     }
 
     private fun dismissSheet() {
-        activity?.supportFragmentManager?.setFragmentResult(EventFragment.RC_APPLY_FILTER, Bundle())
         dismiss()
     }
 

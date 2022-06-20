@@ -10,7 +10,4 @@ internal sealed interface EventAction {
     data class InputSearchEvent(val text: String) : EventAction
 
     object ClickClearAll : EventAction
-
-    object ClickFilter : EventAction
-    object ApplyFilter : EventAction
 }
