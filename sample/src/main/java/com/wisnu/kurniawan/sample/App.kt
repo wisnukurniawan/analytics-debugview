@@ -7,7 +7,12 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DebugView.register("Google analytic")
+        DebugView.register(ANALYTIC_GA_TAG, ANALYTIC_MIXPANEL_TAG)
+    }
+
+    companion object {
+        const val ANALYTIC_GA_TAG = "Google analytic"
+        const val ANALYTIC_MIXPANEL_TAG = "Mixpanel"
     }
 
 }
