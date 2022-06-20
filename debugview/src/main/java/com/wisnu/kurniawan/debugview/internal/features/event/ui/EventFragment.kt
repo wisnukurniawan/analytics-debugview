@@ -23,10 +23,16 @@ import com.wisnu.kurniawan.debugview.internal.features.event.data.IEventEnvironm
 import com.wisnu.kurniawan.debugview.internal.features.event.di.EventModule
 import com.wisnu.kurniawan.debugview.internal.features.eventdetails.ui.EventDetailsFragment
 import com.wisnu.kurniawan.debugview.internal.features.eventfilter.ui.EventFilterFragment
+import com.wisnu.kurniawan.debugview.internal.features.notification.data.EventNotificationManager
 import com.wisnu.kurniawan.debugview.internal.foundation.di.DataModule
+import com.wisnu.kurniawan.debugview.internal.model.Analytic
 import kotlinx.coroutines.launch
 
 internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
+
+    private val eventNotificationManager by lazy {
+        EventNotificationManager(requireContext())
+    }
 
     private val adapter: EventAdapter by lazy {
         EventAdapter {
@@ -71,7 +77,7 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
                         when (it) {
                             is EventEffect.NavigateToEventDetails -> navigateToEventDetailsFragment(it.id)
                             is EventEffect.ShowFilterSheet -> showFilterSheet()
-                            EventEffect.Cleared -> showToastCleared()
+                            is EventEffect.Cleared -> showToastCleared(it.analytic)
                         }
                     }
                 }
@@ -215,7 +221,8 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
         modalBottomSheet.show(requireActivity().supportFragmentManager, EventFilterFragment.TAG)
     }
 
-    private fun showToastCleared() {
+    private fun showToastCleared(analytic: Analytic) {
+        eventNotificationManager.dismiss(analytic)
         Toast.makeText(requireContext(), getString(R.string.debugview_event_cleared), Toast.LENGTH_SHORT).show()
     }
 
