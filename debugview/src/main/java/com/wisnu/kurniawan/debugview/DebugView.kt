@@ -1,14 +1,17 @@
 package com.wisnu.kurniawan.debugview
 
+import android.app.Application
 import android.content.Context
 import com.wisnu.kurniawan.debugview.internal.features.main.di.MainModule
 import com.wisnu.kurniawan.debugview.internal.features.notification.di.EventNotificationModule
 import com.wisnu.kurniawan.debugview.internal.foundation.di.DataModule
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.require
+import com.wisnu.kurniawan.debugview.internal.foundation.lifecycle.registerVisibilityListener
 import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.IdProviderImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
@@ -17,6 +20,7 @@ object DebugView {
 
     private val idProvider by lazy { IdProviderImpl() }
     private val dateTimeProvider by lazy { DateTimeProviderImpl() }
+    private var listenAnalytics: Job? = null
 
     internal fun init(context: Context) {
         GlobalScope.launch(Dispatchers.IO) {
@@ -25,7 +29,16 @@ object DebugView {
             MainModule.inject(DataModule.localManager, idProvider)
             EventNotificationModule.inject(context)
 
-            initListenAnalyticChanges()
+            (context.applicationContext as Application).registerVisibilityListener {
+                if (it) {
+                    listenAnalytics?.cancel()
+                    listenAnalytics = GlobalScope.launch(Dispatchers.IO) {
+                        initListenAnalyticChanges()
+                    }
+                } else {
+                    listenAnalytics?.cancel()
+                }
+            }
         }
     }
 
