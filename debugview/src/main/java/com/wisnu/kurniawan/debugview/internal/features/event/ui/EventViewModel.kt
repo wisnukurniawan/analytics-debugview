@@ -31,9 +31,9 @@ internal class EventViewModel(
                     environment.getAnalytic(action.tag)
                         .take(1)
                         .onEach { setState { copy(analytic = it) } }
-                        .flatMapConcat { environment.searchEvent(it.id, state.value.getSearchType()) }
-                        .collect {
-                            setState { copy(events = it) }
+                        .flatMapConcat { environment.searchEvent(it.id, state.value.searchText) }
+                        .collect { (isFilterApplied, events) ->
+                            setState { copy(events = events, isFilterApplied = isFilterApplied) }
                         }
                 }
             }
@@ -48,20 +48,9 @@ internal class EventViewModel(
                 searchJob?.cancel()
                 searchJob = viewModelScope.launch {
                     setState { copy(searchText = action.text) }
-                    environment.searchEvent(state.value.analytic.id, state.value.getSearchType())
-                        .collect {
-                            setState { copy(events = it) }
-                        }
-                }
-            }
-            is EventAction.ApplyFilter -> {
-                searchJob?.cancel()
-                searchJob = viewModelScope.launch {
-                    setState { copy(filterConfig = filterConfig.copy(text = action.text, type = action.filterType)) }
-
-                    environment.searchEvent(state.value.analytic.id, state.value.getSearchType())
-                        .collect {
-                            setState { copy(events = it) }
+                    environment.searchEvent(state.value.analytic.id, state.value.searchText)
+                        .collect { (isFilterApplied, events) ->
+                            setState { copy(events = events, isFilterApplied = isFilterApplied) }
                         }
                 }
             }
@@ -73,7 +62,16 @@ internal class EventViewModel(
             }
             EventAction.ClickFilter -> {
                 viewModelScope.launch {
-                    setEffect(EventEffect.ShowFilterSheet(state.value.filterConfig))
+                    setEffect(EventEffect.ShowFilterSheet)
+                }
+            }
+            EventAction.ApplyFilter -> {
+                searchJob?.cancel()
+                searchJob = viewModelScope.launch {
+                    environment.searchEvent(state.value.analytic.id, state.value.searchText)
+                        .collect { (isFilterApplied, events) ->
+                            setState { copy(events = events, isFilterApplied = isFilterApplied) }
+                        }
                 }
             }
         }

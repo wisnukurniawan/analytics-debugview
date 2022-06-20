@@ -1,20 +1,25 @@
 package com.wisnu.kurniawan.debugview.internal.features.eventfilter.ui
 
 import androidx.lifecycle.viewModelScope
+import com.wisnu.kurniawan.debugview.internal.features.eventfilter.data.IEventFilterEnvironment
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.select
 import com.wisnu.kurniawan.debugview.internal.foundation.viewmodel.StatefulViewModel
+import com.wisnu.kurniawan.debugview.internal.model.FilterConfig
 import kotlinx.coroutines.launch
 
-internal class EventFilterViewModel : StatefulViewModel<EventFilterState, EventFilterEffect, EventFilterAction, Unit>(
+internal class EventFilterViewModel(
+    environment: IEventFilterEnvironment
+) : StatefulViewModel<EventFilterState, EventFilterEffect, EventFilterAction, IEventFilterEnvironment>(
     EventFilterState.initial,
-    Unit
+    environment
 ) {
 
     override fun dispatch(action: EventFilterAction) {
         when (action) {
             EventFilterAction.ClickApply -> {
                 viewModelScope.launch {
-                    setEffect(EventFilterEffect.Dismiss(state.value.text, state.value.filterItems.first { it.selected }.filterType))
+                    environment.insertFilterConfig(FilterConfig(state.value.text, state.value.filterItems.first { it.selected }.filterType))
+                    setEffect(EventFilterEffect.Dismiss)
                 }
             }
             is EventFilterAction.ClickPaste -> {
@@ -28,10 +33,11 @@ internal class EventFilterViewModel : StatefulViewModel<EventFilterState, EventF
                 }
             }
             is EventFilterAction.Launch -> {
-                if (action.text != null && action.type != null) {
-                    viewModelScope.launch {
-                        setState { copy(text = action.text, filterItems = filterItems.select(action.type)) }
-                    }
+                viewModelScope.launch {
+                    environment.getFilterConfig()
+                        .collect {
+                            setState { copy(text = it.text, filterItems = filterItems.select(it.filterType)) }
+                        }
                 }
             }
             EventFilterAction.ClickReset -> {

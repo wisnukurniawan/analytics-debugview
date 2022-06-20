@@ -6,6 +6,7 @@ import androidx.room.Query
 import androidx.room.Update
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.AnalyticDb
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventDb
+import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.FilterConfigDb
 import java.time.LocalDateTime
 
 @Dao
@@ -22,5 +23,8 @@ internal abstract class WriteDao {
 
     @Query("DELETE FROM EventDb WHERE event_analyticId = :analyticId")
     abstract suspend fun deleteEvent(analyticId: String)
+
+    @Update
+    abstract suspend fun insertFilterConfig(data: FilterConfigDb)
 
 }

@@ -23,7 +23,6 @@ import com.wisnu.kurniawan.debugview.internal.features.event.data.IEventEnvironm
 import com.wisnu.kurniawan.debugview.internal.features.event.di.EventModule
 import com.wisnu.kurniawan.debugview.internal.features.eventdetails.ui.EventDetailsFragment
 import com.wisnu.kurniawan.debugview.internal.features.eventfilter.ui.EventFilterFragment
-import com.wisnu.kurniawan.debugview.internal.features.eventfilter.ui.FilterType
 import com.wisnu.kurniawan.debugview.internal.foundation.di.DataModule
 import kotlinx.coroutines.launch
 
@@ -54,11 +53,8 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
         initRecyclerView(view)
         initRecordingButton(view)
 
-        requireActivity().supportFragmentManager.setFragmentResultListener(RC_FILTER, viewLifecycleOwner) { _, bundle ->
-            val text = bundle.getString(EXTRA_FILTER_TEXT).orEmpty()
-            val filterType = bundle.getSerializable(EXTRA_FILTER_TYPE) as FilterType
-
-            viewModel.dispatch(EventAction.ApplyFilter(text, filterType))
+        requireActivity().supportFragmentManager.setFragmentResultListener(RC_APPLY_FILTER, viewLifecycleOwner) { _, _ ->
+            viewModel.dispatch(EventAction.ApplyFilter)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -74,7 +70,7 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
                     viewModel.effect.collect {
                         when (it) {
                             is EventEffect.NavigateToEventDetails -> navigateToEventDetailsFragment(it.id)
-                            is EventEffect.ShowFilterSheet -> showFilterSheet(it.filterConfig)
+                            is EventEffect.ShowFilterSheet -> showFilterSheet()
                             EventEffect.Cleared -> showToastCleared()
                         }
                     }
@@ -195,7 +191,7 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
         val toolbar = view.findViewById<MaterialToolbar>(R.id.event_toolbar)
         val actionFilter = toolbar.menu.findItem(R.id.action_filter)
 
-        if (state.filterConfig.text.isNotEmpty()) {
+        if (state.isFilterApplied) {
             actionFilter.icon = ContextCompat.getDrawable(requireContext(), R.drawable.debugview_ic_filter_applied)
         } else {
             actionFilter.icon = ContextCompat.getDrawable(requireContext(), R.drawable.debugview_ic_filter_default)
@@ -214,13 +210,8 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
             ?.commit()
     }
 
-    private fun showFilterSheet(filterConfig: FilterConfig) {
+    private fun showFilterSheet() {
         val modalBottomSheet = EventFilterFragment()
-        val input = Bundle().apply {
-            putString(EXTRA_FILTER_TEXT, filterConfig.text)
-            putSerializable(EXTRA_FILTER_TYPE, filterConfig.type)
-        }
-        modalBottomSheet.arguments = input
         modalBottomSheet.show(requireActivity().supportFragmentManager, EventFilterFragment.TAG)
     }
 
@@ -230,9 +221,7 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
 
     companion object {
         const val EXTRA_EVENT_ID = "EXTRA_EVENT_ID"
-        const val EXTRA_FILTER_TEXT = "EXTRA_FILTER_TEXT"
-        const val EXTRA_FILTER_TYPE = "EXTRA_FILTER_TYPE"
-        const val RC_FILTER = "RC_FILTER"
+        const val RC_APPLY_FILTER = "RC_APPLY_FILTER"
     }
 
 }

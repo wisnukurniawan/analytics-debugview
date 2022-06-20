@@ -19,24 +19,27 @@ import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.wisnu.kurniawan.debugview.R
 import com.wisnu.kurniawan.debugview.internal.features.event.ui.EventFragment
+import com.wisnu.kurniawan.debugview.internal.features.eventfilter.data.IEventFilterEnvironment
 import com.wisnu.kurniawan.debugview.internal.features.eventfilter.di.EventFilterModule
+import com.wisnu.kurniawan.debugview.internal.foundation.di.DataModule
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.stringResource
+import com.wisnu.kurniawan.debugview.internal.model.FilterType
 import kotlinx.coroutines.launch
 
 
 internal class EventFilterFragment : BottomSheetDialogFragment() {
 
+    lateinit var environment: IEventFilterEnvironment
     lateinit var viewModel: EventFilterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        EventFilterModule.inject(this, this)
+        EventFilterModule.inject(this, DataModule.localManager)
+        EventFilterModule.inject(this, this, environment)
 
         setStyle(DialogFragment.STYLE_NORMAL, R.style.DebugViewThemeOverlay_App_BottomSheetDialog)
 
-        val text = requireArguments().getString(EventFragment.EXTRA_FILTER_TEXT)
-        val type = requireArguments().getSerializable(EventFragment.EXTRA_FILTER_TYPE) as? FilterType
-        viewModel.dispatch(EventFilterAction.Launch(text, type))
+        viewModel.dispatch(EventFilterAction.Launch)
     }
 
     override fun onCreateView(
@@ -59,7 +62,7 @@ internal class EventFilterFragment : BottomSheetDialogFragment() {
                 launch {
                     viewModel.effect.collect {
                         when (it) {
-                            is EventFilterEffect.Dismiss -> dismissSheet(it)
+                            is EventFilterEffect.Dismiss -> dismissSheet()
                         }
                     }
                 }
@@ -150,12 +153,8 @@ internal class EventFilterFragment : BottomSheetDialogFragment() {
         return item?.text?.toString() ?: ""
     }
 
-    private fun dismissSheet(state: EventFilterEffect.Dismiss) {
-        val result = Bundle().apply {
-            putString(EventFragment.EXTRA_FILTER_TEXT, state.text)
-            putSerializable(EventFragment.EXTRA_FILTER_TYPE, state.type)
-        }
-        activity?.supportFragmentManager?.setFragmentResult(EventFragment.RC_FILTER, result)
+    private fun dismissSheet() {
+        activity?.supportFragmentManager?.setFragmentResult(EventFragment.RC_APPLY_FILTER, Bundle())
         dismiss()
     }
 

@@ -6,6 +6,7 @@ import androidx.room.Transaction
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.AnalyticDb
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventDb
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventWithAnalytic
+import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.FilterConfigDb
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -28,6 +29,19 @@ internal interface ReadDao {
             """
     )
     fun getEventWithAnalytic(limit: Int): Flow<List<EventWithAnalytic>>
+
+    @Transaction
+    @Query(
+        """
+            SELECT *
+            FROM EventDb 
+            LEFT JOIN AnalyticDb ON event_analyticId = AnalyticDb.analytic_id
+            WHERE EventDb.event_name IN (:filters)
+            ORDER BY event_createdAt DESC
+            LIMIT :limit
+            """
+    )
+    fun getEventWithAnalytic(limit: Int, filters: List<String>): Flow<List<EventWithAnalytic>>
 
     @Query("SELECT * FROM EventDb WHERE event_id = :id")
     fun getEvent(id: String): Flow<EventDb>
@@ -84,5 +98,8 @@ internal interface ReadDao {
             """
     )
     fun searchEvent(analyticId: String, limit: Int, query: String, filters: List<String>): Flow<List<EventDb>>
+
+    @Query("SELECT * FROM FilterConfigDb WHERE filter_config_id = :id")
+    fun getFilterConfig(id: String): Flow<FilterConfigDb>
 
 }

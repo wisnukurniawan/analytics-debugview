@@ -2,7 +2,7 @@ package com.wisnu.kurniawan.debugview.internal.foundation.extension
 
 import com.wisnu.kurniawan.debugview.R
 import com.wisnu.kurniawan.debugview.internal.features.eventfilter.ui.FilterItem
-import com.wisnu.kurniawan.debugview.internal.features.eventfilter.ui.FilterType
+import com.wisnu.kurniawan.debugview.internal.model.FilterType
 
 internal fun FilterType.split(text: String) = when (this) {
     FilterType.NEW_LINE -> text.split("\n")

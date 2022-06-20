@@ -1,5 +1,6 @@
 package com.wisnu.kurniawan.debugview.internal.foundation.datastore
 
+import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.FilterConfigDb
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toAnalytic
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toEvent
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toEventDb
@@ -8,6 +9,7 @@ import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.DateTimeProvide
 import com.wisnu.kurniawan.debugview.internal.model.Analytic
 import com.wisnu.kurniawan.debugview.internal.model.Event
 import com.wisnu.kurniawan.debugview.internal.model.EventWithAnalytic
+import com.wisnu.kurniawan.debugview.internal.model.FilterConfig
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
@@ -37,6 +39,20 @@ internal class LocalManager(
 
     fun getEventWithAnalytic(limit: Int): Flow<List<EventWithAnalytic>> {
         return readDao.getEventWithAnalytic(limit)
+            .filterNotNull()
+            .map { analytics ->
+                analytics.map {
+                    EventWithAnalytic(
+                        analytic = it.analytic.toAnalytic(),
+                        event = it.event.toEvent()
+                    )
+                }
+            }
+            .flowOn(dispatcher)
+    }
+
+    fun getEventWithAnalytic(limit: Int, filters: List<String>): Flow<List<EventWithAnalytic>> {
+        return readDao.getEventWithAnalytic(limit, filters)
             .filterNotNull()
             .map { analytics ->
                 analytics.map {
@@ -83,6 +99,12 @@ internal class LocalManager(
             .flowOn(dispatcher)
     }
 
+    fun getFilterConfig(): Flow<FilterConfig> {
+        return readDao.getFilterConfig(FilterConfigDb.DEFAULT_ID)
+            .map { FilterConfig(it.text, it.type) }
+            .flowOn(dispatcher)
+    }
+
     suspend fun updateAnalytic(data: Analytic) {
         withContext(dispatcher) {
             writeDao.updateAnalytic(
@@ -104,6 +126,12 @@ internal class LocalManager(
     suspend fun deleteEvent(analyticId: String) {
         withContext(dispatcher) {
             writeDao.deleteEvent(analyticId)
+        }
+    }
+
+    suspend fun insertFilterConfig(config: FilterConfig) {
+        withContext(dispatcher) {
+            writeDao.insertFilterConfig(FilterConfigDb(FilterConfigDb.DEFAULT_ID, config.text, config.filterType))
         }
     }
 

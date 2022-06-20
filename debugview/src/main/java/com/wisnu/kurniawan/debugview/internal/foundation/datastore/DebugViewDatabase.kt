@@ -9,6 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.AnalyticDb
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventDb
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventFtsDb
+import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.FilterConfigDb
 import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.IdProviderImpl
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
         AnalyticDb::class,
         EventDb::class,
         EventFtsDb::class,
+        FilterConfigDb::class,
     ],
     version = 1,
 )
@@ -53,6 +55,7 @@ internal abstract class DebugViewDatabase : RoomDatabase() {
 
                             GlobalScope.launch(Dispatchers.IO) {
                                 initPrePopulateDefaultAnalytic(context, tags)
+                                initPrePopulateDefaultFilterConfig(context, tags)
                             }
                         }
                     }
@@ -71,10 +74,13 @@ internal abstract class DebugViewDatabase : RoomDatabase() {
                     updatedAt = null
                 )
             }
-
             val writeDao = getInstance(context, tags).writeDao()
-
             writeDao.insertAnalytics(analyticDbs)
+        }
+
+        private suspend fun initPrePopulateDefaultFilterConfig(context: Context, tags: List<String>) {
+            val writeDao = getInstance(context, tags).writeDao()
+            writeDao.insertFilterConfig(FilterConfigDb())
         }
 
 
