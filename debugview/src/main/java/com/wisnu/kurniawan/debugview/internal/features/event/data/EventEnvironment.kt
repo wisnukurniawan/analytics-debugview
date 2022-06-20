@@ -15,21 +15,20 @@ internal class EventEnvironment(private val localManager: LocalManager) : IEvent
     override fun searchEvent(analyticId: String, search: SearchType): Flow<List<Event>> {
         return when (search) {
             is SearchType.Filter -> {
-                return if (search.texts.isEmpty()) {
+                if (search.texts.isEmpty()) {
                     localManager.getEvents(analyticId, LIMIT)
                 } else {
                     localManager.searchEvent(analyticId, LIMIT, search.texts)
                 }
             }
             is SearchType.Query -> {
-                return if (search.text.isBlank()) {
+                if (search.text.isBlank()) {
                     localManager.getEvents(analyticId, LIMIT)
                 } else {
                     localManager.searchEvent(analyticId, LIMIT, search.text.sanitizeQuery())
                 }
             }
         }
-
     }
 
     override suspend fun updateAnalytic(analytic: Analytic) {

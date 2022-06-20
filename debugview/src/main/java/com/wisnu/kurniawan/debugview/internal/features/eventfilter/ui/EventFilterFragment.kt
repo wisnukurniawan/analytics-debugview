@@ -33,6 +33,10 @@ internal class EventFilterFragment : BottomSheetDialogFragment() {
         EventFilterModule.inject(this, this)
 
         setStyle(DialogFragment.STYLE_NORMAL, R.style.DebugViewThemeOverlay_App_BottomSheetDialog)
+
+        val text = requireArguments().getString(EventFragment.EXTRA_FILTER_TEXT)
+        val type = requireArguments().getSerializable(EventFragment.EXTRA_FILTER_TYPE) as? FilterType
+        viewModel.dispatch(EventFilterAction.Launch(text, type))
     }
 
     override fun onCreateView(
@@ -66,10 +70,6 @@ internal class EventFilterFragment : BottomSheetDialogFragment() {
         initPasteArea(view)
         initApplyButton(view)
         initResetButton(view)
-
-        val text = requireArguments().getString(EventFragment.EXTRA_FILTER_TEXT)
-        val type = requireArguments().getSerializable(EventFragment.EXTRA_FILTER_TYPE) as? FilterType
-        viewModel.dispatch(EventFilterAction.Launch(text, type))
     }
 
     private fun initChipGroup(view: View) {

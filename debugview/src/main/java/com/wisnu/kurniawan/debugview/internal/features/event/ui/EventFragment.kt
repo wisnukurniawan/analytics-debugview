@@ -42,6 +42,10 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
         super.onCreate(savedInstanceState)
         EventModule.inject(this, DataModule.localManager)
         EventModule.inject(this, this, environment)
+
+        requireArguments().getString(AnalyticFragment.EXTRA_TAG)?.let {
+            viewModel.dispatch(EventAction.Launch(it))
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +58,7 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
             val text = bundle.getString(EXTRA_FILTER_TEXT).orEmpty()
             val filterType = bundle.getSerializable(EXTRA_FILTER_TYPE) as FilterType
 
-            viewModel.dispatch(EventAction.FilterEvent(text, filterType))
+            viewModel.dispatch(EventAction.ApplyFilter(text, filterType))
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -76,10 +80,6 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
                     }
                 }
             }
-        }
-
-        requireArguments().getString(AnalyticFragment.EXTRA_TAG)?.let {
-            viewModel.dispatch(EventAction.Launch(it))
         }
     }
 

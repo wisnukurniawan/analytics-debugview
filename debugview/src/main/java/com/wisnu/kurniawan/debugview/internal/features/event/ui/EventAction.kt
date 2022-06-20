@@ -14,6 +14,5 @@ internal sealed interface EventAction {
     object ClickClearAll : EventAction
 
     object ClickFilter : EventAction
-    data class FilterEvent(val text: String, val filterType: FilterType) : EventAction
-    data class ApplyFilter(val texts: List<String>) : EventAction
+    data class ApplyFilter(val text: String, val filterType: FilterType) : EventAction
 }

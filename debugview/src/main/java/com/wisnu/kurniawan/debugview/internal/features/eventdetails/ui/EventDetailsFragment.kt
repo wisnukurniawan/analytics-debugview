@@ -32,6 +32,10 @@ internal class EventDetailsFragment : Fragment(R.layout.debugview_fragment_event
         super.onCreate(savedInstanceState)
         EventDetailModule.inject(this, DataModule.localManager)
         EventDetailModule.inject(this, this, environment)
+
+        requireArguments().getString(EventFragment.EXTRA_EVENT_ID)?.let {
+            viewModel.dispatch(EventDetailsAction.Launch(it))
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,10 +63,6 @@ internal class EventDetailsFragment : Fragment(R.layout.debugview_fragment_event
                     }
                 }
             }
-        }
-
-        requireArguments().getString(EventFragment.EXTRA_EVENT_ID)?.let {
-            viewModel.dispatch(EventDetailsAction.Launch(it))
         }
     }
 
