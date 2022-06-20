@@ -10,8 +10,6 @@ import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.Analyti
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventDb
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventFtsDb
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.FilterConfigDb
-import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.DateTimeProviderImpl
-import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.IdProviderImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -36,13 +34,13 @@ internal abstract class DebugViewDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: DebugViewDatabase? = null
 
-        fun getInstance(context: Context, tags: List<String>): DebugViewDatabase {
+        fun getInstance(context: Context): DebugViewDatabase {
             return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: buildDatabase(context, tags).also { INSTANCE = it }
+                INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
             }
         }
 
-        private fun buildDatabase(context: Context, tags: List<String>): DebugViewDatabase {
+        private fun buildDatabase(context: Context): DebugViewDatabase {
             val db = Room.databaseBuilder(
                 context,
                 DebugViewDatabase::class.java,
@@ -54,8 +52,7 @@ internal abstract class DebugViewDatabase : RoomDatabase() {
                             super.onCreate(db)
 
                             GlobalScope.launch(Dispatchers.IO) {
-                                initPrePopulateDefaultAnalytic(context, tags)
-                                initPrePopulateDefaultFilterConfig(context, tags)
+                                initPrePopulateDefaultFilterConfig(context)
                             }
                         }
                     }
@@ -64,22 +61,8 @@ internal abstract class DebugViewDatabase : RoomDatabase() {
             return db.build()
         }
 
-        private suspend fun initPrePopulateDefaultAnalytic(context: Context, tags: List<String>) {
-            val analyticDbs = tags.map {
-                AnalyticDb(
-                    id = IdProviderImpl().generate(),
-                    tag = it,
-                    isRecording = false,
-                    createdAt = DateTimeProviderImpl().now(),
-                    updatedAt = null
-                )
-            }
-            val writeDao = getInstance(context, tags).writeDao()
-            writeDao.insertAnalytics(analyticDbs)
-        }
-
-        private suspend fun initPrePopulateDefaultFilterConfig(context: Context, tags: List<String>) {
-            val writeDao = getInstance(context, tags).writeDao()
+        private suspend fun initPrePopulateDefaultFilterConfig(context: Context) {
+            val writeDao = getInstance(context).writeDao()
             writeDao.insertFilterConfig(FilterConfigDb())
         }
 

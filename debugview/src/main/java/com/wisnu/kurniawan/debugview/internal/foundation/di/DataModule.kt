@@ -11,11 +11,8 @@ internal object DataModule {
     lateinit var db: DebugViewDatabase
     lateinit var localManager: LocalManager
 
-    fun inject(
-        context: Context,
-        tags: List<String>
-    ) {
-        db = DebugViewDatabase.getInstance(context, tags)
+    fun inject(context: Context) {
+        db = DebugViewDatabase.getInstance(context)
     }
 
     fun inject(db: DebugViewDatabase, dateTimeProvider: DateTimeProvider) {

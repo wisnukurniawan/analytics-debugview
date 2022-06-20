@@ -10,4 +10,5 @@ internal interface IMainEnvironment {
     fun getLast10EventWithAnalytic(): Flow<List<AnalyticWithEvent>>
     fun getAnalytic(event: Event): Flow<Analytic>
     suspend fun insertEvent(analytic: Analytic, event: Event, createdAt: LocalDateTime)
+    suspend fun insertAnalytics(tags: List<String>)
 }

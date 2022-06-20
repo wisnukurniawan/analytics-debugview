@@ -11,7 +11,7 @@ internal class EventFilterEnvironment(
         return localManager.getFilterConfig()
     }
 
-    override suspend fun insertFilterConfig(config: FilterConfig) {
-        localManager.insertFilterConfig(config)
+    override suspend fun updateFilterConfig(config: FilterConfig) {
+        localManager.updateFilterConfig(config)
     }
 }

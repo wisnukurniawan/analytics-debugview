@@ -2,6 +2,7 @@ package com.wisnu.kurniawan.debugview.internal.foundation.datastore
 
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.FilterConfigDb
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toAnalytic
+import com.wisnu.kurniawan.debugview.internal.foundation.extension.toAnalyticDb
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toEvent
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toEventDb
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.toEvents
@@ -105,6 +106,12 @@ internal class LocalManager(
             .flowOn(dispatcher)
     }
 
+    suspend fun insertAnalytics(data: List<Analytic>) {
+        withContext(dispatcher) {
+            writeDao.insertAnalytics(data.toAnalyticDb())
+        }
+    }
+
     suspend fun updateAnalytic(data: Analytic) {
         withContext(dispatcher) {
             writeDao.updateAnalytic(
@@ -129,9 +136,9 @@ internal class LocalManager(
         }
     }
 
-    suspend fun insertFilterConfig(config: FilterConfig) {
+    suspend fun updateFilterConfig(config: FilterConfig) {
         withContext(dispatcher) {
-            writeDao.insertFilterConfig(FilterConfigDb(FilterConfigDb.DEFAULT_ID, config.text, config.filterType))
+            writeDao.updateFilterConfig(FilterConfigDb(FilterConfigDb.DEFAULT_ID, config.text, config.filterType))
         }
     }
 

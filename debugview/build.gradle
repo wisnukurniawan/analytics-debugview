@@ -17,6 +17,7 @@ dependencies {
     implementation libs.androidx.room.ktx
     implementation libs.androidx.lifecycle.runtime
     implementation libs.androidx.lifecycle.viewmodel
+    implementation libs.androidx.startup
     kapt libs.androidx.room.compiler
     implementation libs.jetbrains.coroutines.android
     implementation libs.square.moshi

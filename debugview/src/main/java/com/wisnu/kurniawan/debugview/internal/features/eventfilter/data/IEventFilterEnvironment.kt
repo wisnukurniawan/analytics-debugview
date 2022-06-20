@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 internal interface IEventFilterEnvironment {
     fun getFilterConfig(): Flow<FilterConfig>
-    suspend fun insertFilterConfig(config: FilterConfig)
+    suspend fun updateFilterConfig(config: FilterConfig)
 }

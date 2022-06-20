@@ -3,7 +3,9 @@ package com.wisnu.kurniawan.debugview.internal.features.main.data
 import com.wisnu.kurniawan.debugview.Event
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.LocalManager
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.getSearchType
+import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.IdProvider
+import com.wisnu.kurniawan.debugview.internal.foundation.wrapper.IdProviderImpl
 import com.wisnu.kurniawan.debugview.internal.model.Analytic
 import com.wisnu.kurniawan.debugview.internal.model.AnalyticWithEvent
 import com.wisnu.kurniawan.debugview.internal.model.SearchType
@@ -25,7 +27,6 @@ internal class MainEnvironment(
         return localManager.getFilterConfig()
             .map { it.getSearchType("") }
             .flatMapConcat {
-                // TODO log why when app in BG not listen
                 when (it) {
                     is SearchType.Filter -> localManager.getEventWithAnalytic(limit, it.texts)
                     else -> localManager.getEventWithAnalytic(limit)
@@ -42,6 +43,18 @@ internal class MainEnvironment(
                         )
                     }
             }
+    }
+
+    override suspend fun insertAnalytics(tags: List<String>) {
+        val analytics = tags.map {
+            Analytic(
+                id = IdProviderImpl().generate(),
+                tag = it,
+                isRecording = false,
+                createdAt = DateTimeProviderImpl().now(),
+            )
+        }
+        localManager.insertAnalytics(analytics)
     }
 
     override fun getAnalytic(event: Event): Flow<Analytic> {

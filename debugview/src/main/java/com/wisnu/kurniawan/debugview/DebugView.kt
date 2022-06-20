@@ -18,16 +18,22 @@ object DebugView {
     private val idProvider by lazy { IdProviderImpl() }
     private val dateTimeProvider by lazy { DateTimeProviderImpl() }
 
-    fun init(context: Context, vararg tags: String) {
-        require(tags.toList())
-
+    internal fun init(context: Context) {
         GlobalScope.launch(Dispatchers.IO) {
-            DataModule.inject(context, tags.toList())
+            DataModule.inject(context)
             DataModule.inject(DataModule.db, dateTimeProvider)
             MainModule.inject(DataModule.localManager, idProvider)
             EventNotificationModule.inject(context)
 
             initListenAnalyticChanges()
+        }
+    }
+
+    fun init(vararg tags: String) {
+        require(tags.toList())
+
+        GlobalScope.launch(Dispatchers.IO) {
+            MainModule.mainEnvironment?.insertAnalytics(tags.toList())
         }
     }
 

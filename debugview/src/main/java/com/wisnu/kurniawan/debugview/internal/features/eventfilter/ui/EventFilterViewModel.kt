@@ -18,7 +18,7 @@ internal class EventFilterViewModel(
         when (action) {
             EventFilterAction.ClickApply -> {
                 viewModelScope.launch {
-                    environment.insertFilterConfig(FilterConfig(state.value.text, state.value.filterItems.first { it.selected }.filterType))
+                    environment.updateFilterConfig(FilterConfig(state.value.text, state.value.filterItems.first { it.selected }.filterType))
                     setEffect(EventFilterEffect.Dismiss)
                 }
             }
