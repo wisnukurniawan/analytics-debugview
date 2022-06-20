@@ -7,7 +7,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DebugView.init("Google analytic")
+        DebugView.register("Google analytic")
     }
 
 }

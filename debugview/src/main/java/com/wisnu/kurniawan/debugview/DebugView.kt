@@ -29,7 +29,7 @@ object DebugView {
         }
     }
 
-    fun init(vararg tags: String) {
+    fun register(vararg tags: String) {
         require(tags.toList())
 
         GlobalScope.launch(Dispatchers.IO) {
