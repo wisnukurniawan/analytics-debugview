@@ -29,16 +29,11 @@ internal class DebugViewActivity : AppCompatActivity(R.layout.debugview_activity
 
         if (savedInstanceState == null) {
             val bundle = Bundle()
-            bundle.putString(AnalyticFragment.EXTRA_TAG, intent.data?.getQueryParameter(DEEPLINK_QUERY_TAG).orEmpty())
+            bundle.putString(AnalyticFragment.EXTRA_TAG, intent.extras?.getString(AnalyticFragment.EXTRA_TAG).orEmpty())
             supportFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .add(R.id.analytic_fragment, AnalyticFragment::class.java, bundle)
                 .commit()
         }
-    }
-
-    companion object {
-        const val DEEPLINK_BASE = "debugview://com.wisnu.kurniawan"
-        const val DEEPLINK_QUERY_TAG = "tag"
     }
 }
