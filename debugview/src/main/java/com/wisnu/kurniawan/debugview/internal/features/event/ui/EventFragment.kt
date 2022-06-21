@@ -104,18 +104,15 @@ internal class EventFragment : Fragment(R.layout.debugview_fragment_event) {
         }
 
         val actionSearch = toolbar.menu.findItem(R.id.action_search)
-        val actionFilter = toolbar.menu.findItem(R.id.action_filter)
         val actionClear = toolbar.menu.findItem(R.id.action_clear)
 
         actionSearch.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                actionFilter.isVisible = false
                 actionClear.isVisible = false
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                actionFilter.isVisible = true
                 actionClear.isVisible = true
                 return true
             }
