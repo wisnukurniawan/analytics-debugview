@@ -2,6 +2,7 @@ package com.wisnu.kurniawan.debugview
 
 import android.app.Application
 import android.content.Context
+import android.os.Bundle
 import com.wisnu.kurniawan.debugview.internal.features.main.di.MainModule
 import com.wisnu.kurniawan.debugview.internal.features.notification.di.EventNotificationModule
 import com.wisnu.kurniawan.debugview.internal.foundation.di.DataModule
@@ -61,6 +62,28 @@ object DebugView {
                     )
                 }
             }
+    }
+
+    fun record(tag: String, eventName: String, bundle: Bundle) {
+        val properties = bundle.keySet().associateWith { bundle.getString(it).orEmpty() }
+
+        record(
+            Event(
+                tag = tag,
+                name = eventName,
+                properties = properties
+            )
+        )
+    }
+
+    fun record(tag: String, eventName: String, properties: Map<String, Any>) {
+        record(
+            Event(
+                tag = tag,
+                name = eventName,
+                properties = properties.mapValues { it.value.toString() }
+            )
+        )
     }
 
     fun record(event: Event) {
