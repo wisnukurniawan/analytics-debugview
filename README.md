@@ -32,3 +32,9 @@ dependencies {
     releaseImplementation 'com.github.wisnukurniawan.analytics-debugview:debugview-no-op:0.1.1'
 }
 ```
+
+## Others
+
+* [Mercury architecture](https://github.com/wisnukurniawan/Compose-ToDo/blob/main/doc/architecture.md)
+* [Project structure](https://github.com/wisnukurniawan/Compose-ToDo/blob/main/doc/project-structure.md)
+* [Modularization](https://github.com/wisnukurniawan/Compose-ToDo/blob/main/doc/module.md)
