@@ -1,7 +1,7 @@
 package com.wisnu.kurniawan.debugview.foundation.extension
 
-import com.wisnu.kurniawan.debugview.internal.foundation.extension.prettyJson
-import com.wisnu.kurniawan.debugview.internal.foundation.extension.toJson
+import com.wisnu.foundation.corejson.prettyJson
+import com.wisnu.foundation.corejson.toJson
 import org.junit.Assert
 import org.junit.Test
 

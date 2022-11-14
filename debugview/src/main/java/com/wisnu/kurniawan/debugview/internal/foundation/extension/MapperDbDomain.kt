@@ -1,5 +1,6 @@
 package com.wisnu.kurniawan.debugview.internal.foundation.extension
 
+import com.wisnu.foundation.corejson.mapFromJson
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.AnalyticDb
 import com.wisnu.kurniawan.debugview.internal.foundation.datastore.model.EventDb
 import com.wisnu.kurniawan.debugview.internal.model.Analytic

@@ -1,8 +1,8 @@
 package com.wisnu.kurniawan.debugview.internal.features.analytic.ui
 
 import androidx.lifecycle.viewModelScope
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import com.wisnu.kurniawan.debugview.internal.features.analytic.data.IAnalyticEnvironment
-import com.wisnu.kurniawan.debugview.internal.foundation.viewmodel.StatefulViewModel
 import kotlinx.coroutines.launch
 
 internal class AnalyticViewModel(

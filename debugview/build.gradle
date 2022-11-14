@@ -22,6 +22,9 @@ dependencies {
     implementation libs.jetbrains.coroutines.android
     implementation libs.square.moshi
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
+    implementation libs.wisnu.foundation.core.viewmodel
+    implementation libs.wisnu.foundation.core.ui
+    implementation libs.wisnu.foundation.core.json
 
     testImplementation libs.test.androidx.junit
     testImplementation libs.test.robolectric

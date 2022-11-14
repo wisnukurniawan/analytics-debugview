@@ -1,9 +1,9 @@
 package com.wisnu.kurniawan.debugview.internal.features.eventfilter.ui
 
 import androidx.lifecycle.viewModelScope
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import com.wisnu.kurniawan.debugview.internal.features.eventfilter.data.IEventFilterEnvironment
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.select
-import com.wisnu.kurniawan.debugview.internal.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.debugview.internal.model.FilterConfig
 import kotlinx.coroutines.launch
 

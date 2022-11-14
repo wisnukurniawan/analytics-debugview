@@ -1,8 +1,8 @@
 package com.wisnu.kurniawan.debugview.internal.features.event.ui
 
 import androidx.lifecycle.viewModelScope
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import com.wisnu.kurniawan.debugview.internal.features.event.data.IEventEnvironment
-import com.wisnu.kurniawan.debugview.internal.foundation.viewmodel.StatefulViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.onEach

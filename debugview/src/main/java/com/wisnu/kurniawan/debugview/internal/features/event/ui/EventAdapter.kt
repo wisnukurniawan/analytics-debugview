@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.wisnu.kurniawan.debugview.R
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.formatDateTime
-import com.wisnu.kurniawan.debugview.internal.foundation.extension.toJson
 import com.wisnu.kurniawan.debugview.internal.model.Event
 
 internal class EventAdapter(
@@ -67,7 +66,8 @@ internal class EventViewHolder(
 
     fun bindData(event: Event) {
         itemView.findViewById<TextView>(R.id.event_item_tv).text = event.name
-        itemView.findViewById<TextView>(R.id.event_item_prop_tv).text = "${event.createdAt.formatDateTime()} ${toJson(event.properties)}"
+        itemView.findViewById<TextView>(R.id.event_item_prop_tv).text =
+            "${event.createdAt.formatDateTime()} ${com.wisnu.foundation.corejson.toJson(event.properties)}"
     }
 
 }

@@ -1,9 +1,9 @@
 package com.wisnu.kurniawan.debugview.internal.features.eventdetails.ui
 
 import androidx.lifecycle.viewModelScope
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import com.wisnu.kurniawan.debugview.internal.features.eventdetails.data.IEventDetailsEnvironment
 import com.wisnu.kurniawan.debugview.internal.foundation.extension.propertyDisplay
-import com.wisnu.kurniawan.debugview.internal.foundation.viewmodel.StatefulViewModel
 import kotlinx.coroutines.launch
 
 internal class EventDetailsViewModel(

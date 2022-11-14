@@ -28,7 +28,7 @@ internal fun Event.toEventDb(
         id = id,
         analyticId = analyticId,
         name = name,
-        properties = toJson(properties),
+        properties = com.wisnu.foundation.corejson.toJson(properties),
         createdAt = createdAt,
     )
 }
